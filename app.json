@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "opgrade_ios",
+    "slug": "opgrade_ios",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "ios.com"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "package": "adb.com"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "entryPoint": "node_modules/expo/AppEntry.js"
+  }
+}

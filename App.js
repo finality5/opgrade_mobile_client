@@ -14,7 +14,7 @@ import {
   Dashboard,
 } from './src/screens'
 import { FIREBASE_CONFIG } from './src/core/config'
-
+import { AppProvider } from './src/context/context'
 const Stack = createStackNavigator()
 if (!firebase.apps.length) {
   firebase.initializeApp(FIREBASE_CONFIG)
@@ -22,29 +22,31 @@ if (!firebase.apps.length) {
 
 const App = () => {
   return (
-    <Provider theme={theme}>
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="AuthLoadingScreen"
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Stack.Screen
-            name="AuthLoadingScreen"
-            component={AuthLoadingScreen}
-          />
-          <Stack.Screen name="StartScreen" component={StartScreen} />
-          <Stack.Screen name="LoginScreen" component={LoginScreen} />
-          <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-          <Stack.Screen name="Dashboard" component={Dashboard} />
-          <Stack.Screen
-            name="ForgotPasswordScreen"
-            component={ForgotPasswordScreen}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </Provider>
+    <AppProvider>
+      <Provider theme={theme}>
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName="AuthLoadingScreen"
+            screenOptions={{
+              headerShown: false,
+            }}
+          >
+            <Stack.Screen
+              name="AuthLoadingScreen"
+              component={AuthLoadingScreen}
+            />
+            <Stack.Screen name="StartScreen" component={StartScreen} />
+            <Stack.Screen name="LoginScreen" component={LoginScreen} />
+            <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+            <Stack.Screen name="Dashboard" component={Dashboard} />
+            <Stack.Screen
+              name="ForgotPasswordScreen"
+              component={ForgotPasswordScreen}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>
+    </AppProvider>
   )
 }
 

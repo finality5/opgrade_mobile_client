@@ -7,6 +7,7 @@ import Button from '../components/Button'
 import { logoutUser } from '../api/auth-api'
 import { AppContext } from '../context/context'
 import HeaderTop from '../components/HeaderTop'
+
 import { View} from 'react-native'
 const Dashboard = () => {
   const { displayName } = useContext(AppContext)

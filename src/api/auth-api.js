@@ -1,5 +1,6 @@
 import firebase from 'firebase/app'
 import 'firebase/auth'
+import 'firebase/database'
 
 export const logoutUser = () => {
   firebase.auth().signOut()
@@ -10,9 +11,7 @@ export const signInUser = async ({ name, email, password }) => {
     const user = await firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-    firebase.auth().currentUser.updateProfile({
-      displayName: name,
-    })
+    initialUserData(name)
     return { user }
   } catch (error) {
     return {
@@ -43,4 +42,21 @@ export const sendEmailWithPassword = async (email) => {
       error: error.message,
     }
   }
+}
+
+const initialUserData = (Name) => {
+  const user = firebase.auth().currentUser
+  firebase.auth().currentUser.updateProfile({
+    displayName: Name,
+  })
+  firebase
+    .database()
+    .ref('users/' + user.uid)
+    .set({
+      data: {
+        uid: user.uid,
+        name: Name,
+        email: user.email,
+      },
+    })
 }

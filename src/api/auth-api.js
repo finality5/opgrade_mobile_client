@@ -52,7 +52,7 @@ const initialUserData = (Name) => {
     .database()
     .ref('users/' + user.uid)
     .set({
-      data: {
+      user_data: {
         uid: user.uid,
         name: Name,
         email: user.email,

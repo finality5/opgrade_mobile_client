@@ -14,10 +14,10 @@ import {
 import { theme } from '../core/theme'
 const HeaderTop = () => {
   return (
-    <Container style={styles.container}>
+   
       <Header style={styles.header}>
         <Left>
-                  <Button transparent style={{marginLeft:10}}>
+                  <Button transparent style={{marginLeft:30}}>
                       <Icon name="menu" style={{color:'white'}} />
           </Button>
         </Left>
@@ -28,7 +28,7 @@ const HeaderTop = () => {
           
         </Right>
       </Header>
-    </Container>
+  
   )
 }
 

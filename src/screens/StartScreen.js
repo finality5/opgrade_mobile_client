@@ -12,7 +12,7 @@ const StartScreen = ({ navigation }) => (
     <Logo />
     <Header>Camera Grading App</Header>
     <Paragraph>
-      Start grading your exams in easier way for better quality of measurement.
+    Start grading your exams in easier way for better quality of measurement.
     </Paragraph>
     <Button mode="contained" onPress={() => navigation.navigate('LoginScreen')}>
       Login

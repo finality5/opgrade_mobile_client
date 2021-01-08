@@ -1,7 +1,6 @@
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
-
 export const logoutUser = () => {
   firebase.auth().signOut()
 }
@@ -59,4 +58,21 @@ const initialUserData = (Name) => {
         email: user.email,
       },
     })
+}
+
+export const initialUserFetch = () => {
+  try {
+    const user = firebase.auth().currentUser
+    return firebase
+      .database()
+      .ref('/users/' + user.uid)
+      .once('value')
+      .then((snapshot) => {
+        return snapshot.val()
+      })
+  } catch (error) {
+    return {
+      error: error.message,
+    }
+  }
 }

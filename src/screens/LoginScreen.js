@@ -42,7 +42,7 @@ const LoginScreen = ({ navigation }) => {
     <Background>
       <BackButton goBack={navigation.goBack} />
       <Logo />
-      <Header>Sign in</Header>
+      <Header>Welcome back.</Header>
       <TextInput
         label="Email"
         returnKeyType="next"

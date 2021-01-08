@@ -3,13 +3,13 @@ import React, { useState, createContext } from 'react'
 export const AppContext = createContext({})
 
 export const AppProvider = ({ children }) => {
-  const [displayName, setDisplayName] = useState()
+  const [user, setUser] = useState()
 
   return (
     <AppContext.Provider
       value={{
-        displayName,
-        setDisplayName,
+        user,
+        setUser,
       }}
     >
       {children}

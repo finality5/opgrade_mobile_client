@@ -1,6 +1,4 @@
 rootProject.name = 'opgradeios'
-include ':react-native-document-scanner'
-project(':react-native-document-scanner').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-document-scanner/android')
 
 apply from: '../node_modules/react-native-unimodules/gradle.groovy'
 includeUnimodulesProjects()

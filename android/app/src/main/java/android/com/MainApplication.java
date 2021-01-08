@@ -1,4 +1,4 @@
-package adb.com;
+package android.com;
 
 import android.app.Application;
 import android.content.Context;
@@ -6,13 +6,12 @@ import android.net.Uri;
 
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
-import org.opencv.DocumentScannerPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import adb.com.generated.BasePackageList;
+import android.com.generated.BasePackageList;
 
 import org.unimodules.adapters.react.ReactAdapterPackage;
 import org.unimodules.adapters.react.ModuleRegistryAdapter;
@@ -103,7 +102,7 @@ public class MainApplication extends Application implements ReactApplication {
          We use reflection here to pick up the class that initializes Flipper,
         since Flipper library is not available in release mode
         */
-        Class<?> aClass = Class.forName("adb.com.ReactNativeFlipper");
+        Class<?> aClass = Class.forName("android.com.ReactNativeFlipper");
         aClass
             .getMethod("initializeFlipper", Context.class, ReactInstanceManager.class)
             .invoke(null, context, reactInstanceManager);

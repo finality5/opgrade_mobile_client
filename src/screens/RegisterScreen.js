@@ -1,4 +1,4 @@
-import React, { useState ,useContext} from 'react'
+import React, { useState } from 'react'
 import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import { Text } from 'react-native-paper'
 import Background from '../components/Background'
@@ -13,9 +13,8 @@ import { passwordValidator } from '../helpers/passwordValidator'
 import { nameValidator } from '../helpers/nameValidator'
 import { signInUser } from '../api/auth-api'
 import Toast from '../components/Toast'
-import { AppContext } from '../context/context'
+
 const RegisterScreen = ({ navigation }) => {
-  const { setDisplayName } = useContext(AppContext)
   const [name, setName] = useState({ value: '', error: '' })
   const [email, setEmail] = useState({ value: '', error: '' })
   const [password, setPassword] = useState({ value: '', error: '' })
@@ -40,7 +39,7 @@ const RegisterScreen = ({ navigation }) => {
     })
     if (response.error) {
       setError(response.error)
-    } 
+    }
     setLoading(false)
   }
 

@@ -3,40 +3,39 @@ import { View, StyleSheet } from 'react-native'
 import { AppContext } from './../context/context'
 import { theme } from '../core/theme'
 import { Card, CardItem, Text, Body, Button, Icon } from 'native-base'
+import { Col, Row, Grid } from 'react-native-easy-grid'
 
 const boxColor = ['opAlter', 'opSecondary', 'opPrimary']
 
-const ClassList = () => {
+const ClassList = ({ navigation }) => {
   const { user } = useContext(AppContext)
   if (user) {
     console.log('@', user.class_data)
     return user.class_data.map((obj, index) => (
-      <View
+      <Button
         key={obj.class_id}
         style={{
           width: '100%',
           height: 170,
           backgroundColor: theme.colors[[boxColor[index % 3]]],
           borderRadius: 20,
-          padding: 20,
+          padding: 10,
           marginTop: 7,
           marginBottom: 7,
         }}
+        onPress={() =>
+          navigation.navigate('ClassIndex', {
+            title: obj.class_name,
+            classId:obj.class_id
+          })
+        }
       >
-        <Text style={styles.header}>{obj.class_name}</Text>
-        <View
-          style={{
-            row: {
-              flex: 1,
-              flexDirection: 'row',
-            },
-          }}
-        >
-          <View
-            style={{
-              flex: 1,
-            }}
-          >
+        <Grid>
+          <Row>
+            <Text style={styles.header}>{obj.class_name}</Text>
+          </Row>
+
+          <Row style={styles.buttonContainer}>
             <Button
               iconLeft
               style={{
@@ -55,9 +54,9 @@ const ClassList = () => {
               <Icon name="ios-person" />
               <Text>{obj.student.length}</Text>
             </Button>
-          </View>
-        </View>
-      </View>
+          </Row>
+        </Grid>
+      </Button>
     ))
   } else return null
 }
@@ -65,19 +64,15 @@ const ClassList = () => {
 export default ClassList
 
 const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    height: 170,
-    backgroundColor: '#00C7C7',
-    borderRadius: 20,
-    padding: 20,
-    marginTop: 7,
-    marginBottom: 7,
+  buttonContainer: {
+    marginTop: 40,
+    padding: 5,
   },
   header: {
     color: 'white',
-    fontSize: 22,
+    fontSize: 25,
     fontWeight: 'bold',
     fontFamily: 'Comfortaa',
+    marginTop: 20,
   },
 })

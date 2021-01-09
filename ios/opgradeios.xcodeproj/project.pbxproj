@@ -28,7 +28,7 @@
 		85A028E652324E3893AFBDE9 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3CC8AE43D7449EC8ED15421 /* FontAwesome5_Regular.ttf */; };
 		925FB1AF39CF4534AEA36CA5 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 389256A2F08845EEA12E4EF1 /* SimpleLineIcons.ttf */; };
 		96905EF65AED1B983A6B3ABC /* libPods-opgradeios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EEBF8E8E6FB1BC6CAF49B5 /* libPods-opgradeios.a */; };
-		B78D97E725A964AD00D401B8 /* Comfortaa-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B78D97E625A964AD00D401B8 /* Comfortaa-VariableFont_wght.ttf */; };
+		B77ACAD325A9A335008CF06F /* Comfortaa-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B77ACAD225A9A334008CF06F /* Comfortaa-VariableFont_wght.ttf */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		D4003DE2B86147AFA4B0A72A /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 071BB797EC6E44CCB3D0E88C /* FontAwesome5_Solid.ttf */; };
 		E15343550BB74005BD199879 /* Roboto_medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E72CBDC31C0E41C0A73FE629 /* Roboto_medium.ttf */; };
@@ -63,7 +63,7 @@
 		AD7931778B054A34A835D643 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/native-base/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		B0C0687057F54F8986E3C0DE /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/native-base/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		B53314FEE9EB4B3C98AC99FF /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/native-base/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
-		B78D97E625A964AD00D401B8 /* Comfortaa-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Comfortaa-VariableFont_wght.ttf"; path = "../../Comfortaa-VariableFont_wght.ttf"; sourceTree = "<group>"; };
+		B77ACAD225A9A334008CF06F /* Comfortaa-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Comfortaa-VariableFont_wght.ttf"; path = "../src/assets/fronts/Comfortaa-VariableFont_wght.ttf"; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		DA296D24D23848A19B12BD77 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/native-base/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		E3CC8AE43D7449EC8ED15421 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/native-base/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
@@ -148,7 +148,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				B78D97E625A964AD00D401B8 /* Comfortaa-VariableFont_wght.ttf */,
+				B77ACAD225A9A334008CF06F /* Comfortaa-VariableFont_wght.ttf */,
 				13B07FAE1A68108700A75B9A /* opgradeios */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
@@ -258,7 +258,7 @@
 				19551643B8EC45318D90F40D /* Feather.ttf in Resources */,
 				2990D4AADEBD45B19AAC970F /* FontAwesome.ttf in Resources */,
 				6CB2D1F2691C45578D3B1FDA /* FontAwesome5_Brands.ttf in Resources */,
-				B78D97E725A964AD00D401B8 /* Comfortaa-VariableFont_wght.ttf in Resources */,
+				B77ACAD325A9A335008CF06F /* Comfortaa-VariableFont_wght.ttf in Resources */,
 				85A028E652324E3893AFBDE9 /* FontAwesome5_Regular.ttf in Resources */,
 				D4003DE2B86147AFA4B0A72A /* FontAwesome5_Solid.ttf in Resources */,
 				81C9322CD5A748B6A3532681 /* Fontisto.ttf in Resources */,

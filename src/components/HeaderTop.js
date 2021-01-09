@@ -12,17 +12,18 @@ import {
   Text,
 } from 'native-base'
 import { theme } from '../core/theme'
-const HeaderTop = () => {
+const HeaderTop = ({ goBack,title }) => {
   return (
    
       <Header style={styles.header}>
         <Left>
-                  <Button transparent style={{marginLeft:30}}>
-                      <Icon name="menu" style={{color:'white'}} />
+        <Button transparent style={{ marginLeft: 30 }} onPress={goBack}>
+                      <Icon name="ios-arrow-back" style={{color:'white'}} />
           </Button>
+       
         </Left>
         <Body>
-          <Title style={styles.content}>Opgrade</Title>
+        <Title style={styles.content}>{ title}</Title>
         </Body>
         <Right>
           

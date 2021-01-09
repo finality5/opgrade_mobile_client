@@ -14,7 +14,7 @@ import ClassList from '../components/ClassList'
 import axios from 'axios'
 import { Container, Content } from 'native-base'
 import { theme } from '../core/theme'
-const Dashboard = () => {
+const Dashboard = ({ navigation }) => {
   const { user, setUser } = useContext(AppContext)
   const [error, setError] = useState()
   const [test, setTest] = useState()
@@ -40,52 +40,22 @@ const Dashboard = () => {
     //   .catch((err) => setError(err.message))
   }, [])
 
-  // return (
-  //   <Background>
-  //     <HeaderTop />
-  //     {/* <Logo />
-  //     <Header>{test ? test : 'NO DATA'}</Header>
-  //     <Paragraph>
-  //       Your amazing app starts here. Open you favorite code editor and start
-  //       editing this project.
-  //     </Paragraph> */}
-  //     <Container>
-  //       <Content padder>
-  //       <ClassList />
-  //       </Content>
-  //     </Container>
-
-  //     <Button
-  //       mode="outlined"
-  //       onPress={() => {
-  //         setUser()
-  //         logoutUser()
-  //       }}
-  //     >
-  //       Logout
-  //     </Button>
-  //     <Toast message={error} onDismiss={() => setError('')} />
-  //   </Background>
-  // )
   return (
     <Container style={styles.container}>
-      <HeaderTop/>
+      <HeaderTop goBack={navigation.goBack} title="Classes" />
       <Content padder>
-        
-        <ClassList />
-        <Content style={{marginTop:100}}>
-          
-        <Button
-          mode="outlined"
-          onPress={() => {
-            setUser()
-            logoutUser()
-          }}
-          
+        <ClassList navigation={navigation} />
+        <Content style={{ marginTop: 100 }}>
+          <Button
+            mode="outlined"
+            onPress={() => {
+              setUser()
+              logoutUser()
+            }}
           >
-          Logout
-        </Button>
-          </Content>
+            Logout
+          </Button>
+        </Content>
         <Toast message={error} onDismiss={() => setError('')} />
       </Content>
     </Container>

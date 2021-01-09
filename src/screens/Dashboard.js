@@ -12,7 +12,8 @@ import { AppContext } from '../context/context'
 import { initialUserFetch } from '../api/auth-api'
 import ClassList from '../components/ClassList'
 import axios from 'axios'
-import { Container,Content} from 'native-base'
+import { Container, Content } from 'native-base'
+import { theme } from '../core/theme'
 const Dashboard = () => {
   const { user, setUser } = useContext(AppContext)
   const [error, setError] = useState()
@@ -72,15 +73,19 @@ const Dashboard = () => {
       <Content padder>
         
         <ClassList />
+        <Content style={{marginTop:100}}>
+          
         <Button
           mode="outlined"
           onPress={() => {
             setUser()
             logoutUser()
           }}
-        >
+          
+          >
           Logout
         </Button>
+          </Content>
         <Toast message={error} onDismiss={() => setError('')} />
       </Content>
     </Container>
@@ -93,5 +98,5 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     width: '100%',
-  }
+  },
 })

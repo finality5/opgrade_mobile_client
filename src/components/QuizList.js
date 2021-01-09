@@ -1,11 +1,19 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-
-const QuizList = ({ quiz }) => {
+import { Button } from 'native-base'
+const QuizList = ({ quiz, navigation }) => {
   return quiz.map((obj) => (
-    <View style={styles.quiz} key={obj.quiz_id}>
+    <Button
+      style={styles.quiz}
+      key={obj.quiz_id}
+      onPress={() =>
+        navigation.navigate('QuizIndex', {
+          quiz: obj,
+        })
+      }
+    >
       <Text>{obj.quiz_name}</Text>
-    </View>
+    </Button>
   ))
 }
 
@@ -20,8 +28,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     paddingLeft: 15,
     paddingRight: 15,
-    justifyContent: 'center',
-    flex: 1,
+    
     fontFamily: 'Comfortaa',
   },
 })

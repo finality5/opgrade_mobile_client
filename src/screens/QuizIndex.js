@@ -11,60 +11,24 @@ import { theme } from '../core/theme'
 import { Col, Row, Grid } from 'react-native-easy-grid'
 import QuizList from '../components/QuizList'
 import StudentList from '../components/StudentList'
-const ClassIndex = ({ route, navigation }) => {
+
+const Index = ({ route, navigation }) => {
   const { user, setUser } = useContext(AppContext)
   const [error, setError] = useState()
-  const { title, classId } = route.params
+  const {quiz} = route.params
 
-  const classCurrent = user.class_data.filter((obj) => obj.class_id === classId)
   return (
     <Container style={styles.container}>
-      <HeaderTop goBack={navigation.goBack} title={title} />
+      <HeaderTop goBack={navigation.goBack} title="Quiz" />
       <Content padder>
-        <Text style={styles.header}>Class Info</Text>
-        <View style={styles.divider}></View>
-        <Grid>
-          <Row>
-            <Col size={1}>
-              <View style={styles.quiz}>
-                <Text>Class Name</Text>
-              </View>
-            </Col>
-            <Col size={2}>
-              <View style={styles.quiz}>
-                <Text>{title}</Text>
-              </View>
-            </Col>
-          </Row>
-          <Row>
-            <Col size={1}>
-              <View style={styles.quiz}>
-                <Text>Class ID</Text>
-              </View>
-            </Col>
-            <Col size={2}>
-              <View style={styles.quiz}>
-                <Text>{classId}</Text>
-              </View>
-            </Col>
-          </Row>
-        </Grid>
-        <Text style={styles.header}>Quiz</Text>
-        <View style={styles.divider}></View>
-        
-              <QuizList quiz={classCurrent[0].quiz} navigation={navigation}/>
-        <Text style={styles.header}>Student</Text>
-        <View style={styles.divider}></View>
-
-        <StudentList student={classCurrent[0].student} navigation={navigation}/>
-
+        <Text style={styles.header}>{ quiz.quiz_id}</Text>
         <Toast message={error} onDismiss={() => setError('')} />
       </Content>
     </Container>
   )
 }
 
-export default ClassIndex
+export default Index
 
 const styles = StyleSheet.create({
   container: {

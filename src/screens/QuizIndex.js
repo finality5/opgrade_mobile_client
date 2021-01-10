@@ -2,18 +2,16 @@ import React, { useState, useEffect, useContext } from 'react'
 //import Button from '../components/Button'
 import HeaderTop from '../components/HeaderTop'
 import Toast from '../components/Toast'
-import ClassList from '../components/ClassList'
 import axios from 'axios'
 import { AppContext } from '../context/context'
 import { Container, Content, Text, View, Button, Icon } from 'native-base'
-import { StyleSheet } from 'react-native'
+import { StyleSheet,Image } from 'react-native'
 import { theme } from '../core/theme'
 import { Col, Row } from 'react-native-easy-grid'
-import QuizList from '../components/QuizList'
-import StudentList from '../components/StudentList'
 
-const Index = ({ route, navigation }) => {
-  const { user, setUser } = useContext(AppContext)
+
+const QuizIndex = ({ route, navigation }) => {
+  const { img,setImg} = useContext(AppContext)
   const [error, setError] = useState()
   const { quiz } = route.params
 
@@ -60,21 +58,27 @@ const Index = ({ route, navigation }) => {
             </View>
           </Col>
         </Row>
-
         <Row>
-          <Button iconLeft style={styles.button}>
+          {img ? <Image source={{ uri: img }} style={{ height: 200, width: null, flex: 1 }} /> : null}
+          <Button onPress={() => setImg()}>
+            
+            <Text>Clear Image</Text>
+          </Button>
+        </Row>
+        <Row>
+          <Button iconLeft style={styles.button} onPress={() => navigation.replace('CameraIndex')}>
             <Icon name="ios-camera" />
             <Text>Scan Exam</Text>
           </Button>
         </Row>
-
+        
         <Toast message={error} onDismiss={() => setError('')} />
       </Content>
     </Container>
   )
 }
 
-export default Index
+export default QuizIndex
 
 const styles = StyleSheet.create({
   container: {
@@ -116,6 +120,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     fontFamily: 'Comfortaa',
-    marginTop: 450,
+    marginTop: 350,
   },
 })

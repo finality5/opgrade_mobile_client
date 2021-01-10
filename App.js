@@ -14,7 +14,8 @@ import {
   Dashboard,
   ClassIndex,
   QuizIndex,
-  CameraIndex
+  CameraIndex,
+  ResultScreen
 } from './src/screens'
 import { FIREBASE_CONFIG } from './src/core/config'
 import { AppProvider } from './src/context/context'
@@ -46,6 +47,7 @@ const App = () => {
             <Stack.Screen name="ClassIndex" component={ClassIndex} />
             <Stack.Screen name="QuizIndex" component={QuizIndex} />
             <Stack.Screen name="CameraIndex" component={CameraIndex} />
+            <Stack.Screen name="ResultScreen" component={ResultScreen} />
             <Stack.Screen
               name="ForgotPasswordScreen"
               component={ForgotPasswordScreen}

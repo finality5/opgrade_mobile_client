@@ -11,7 +11,8 @@ const CameraIndex = ({ navigation }) => {
     try {
       const options = { quality: 0.5, base64: true }
       const data = await camera.current.takePictureAsync(options)
-      setImg(data.uri)
+        setImg(data.uri)
+        navigation.replace('ResultScreen')
       console.log(data.uri, '<<<<<<<<<<<<<<<<<<<<<')
     } catch (error) {
       console.log(error, 'ERROR <<<<<<<<<<<<<')

@@ -59,13 +59,6 @@ const QuizIndex = ({ route, navigation }) => {
           </Col>
         </Row>
         <Row>
-          {img ? <Image source={{ uri: img }} style={{ height: 200, width: null, flex: 1 }} /> : null}
-          <Button onPress={() => setImg()}>
-            
-            <Text>Clear Image</Text>
-          </Button>
-        </Row>
-        <Row>
           <Button iconLeft style={styles.button} onPress={() => navigation.replace('CameraIndex')}>
             <Icon name="ios-camera" />
             <Text>Scan Exam</Text>

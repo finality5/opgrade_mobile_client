@@ -1,18 +1,34 @@
-import React, { useRef,useContext } from 'react'
+import React, { useRef, useContext, useState } from 'react'
 import HeaderTop from '../components/HeaderTop'
 import { AppContext } from '../context/context'
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import { RNCamera } from 'react-native-camera'
 import { Container, Content, Text, View } from 'native-base'
+import { theme } from '../core/theme'
+import axios from 'axios'
+
 const CameraIndex = ({ navigation }) => {
   const camera = useRef(null)
-  const { img, setImg } = useContext(AppContext)
+  const { img, setImg, host } = useContext(AppContext)
+  //const { imgUrl, setUrl } = useState()
+  const sendImage = (image_data) => {
+    let req = new FormData()
+    req.append('image', image_data.base64)
+    req.append('name', 'testestest')
+    const url = 'http://' + host + ':5000' + '/get_image'
+    //console.log(url)
+    axios.post(url, req).then((res) => {
+      console.log('@@', res.data.url)
+      setImg(res.data.url)
+    })
+  }
   const takePicture = async () => {
     try {
       const options = { quality: 0.5, base64: true }
       const data = await camera.current.takePictureAsync(options)
-        setImg(data.uri)
-        navigation.replace('ResultScreen')
+      //setImg(data.uri)
+      sendImage(data)
+      navigation.replace('ResultScreen')
       console.log(data.uri, '<<<<<<<<<<<<<<<<<<<<<')
     } catch (error) {
       console.log(error, 'ERROR <<<<<<<<<<<<<')
@@ -43,6 +59,56 @@ const CameraIndex = ({ navigation }) => {
             console.log(barcodes)
           }}
         />
+        <View
+          style={{
+            position: 'absolute',
+            width: 100,
+            height: 100,
+            borderStyle: 'solid',
+            borderColor: 'white',
+            borderWidth: 4,
+            boxSizing: 'border-box',
+            top: 80,
+          }}
+        ></View>
+        <View
+          style={{
+            position: 'absolute',
+            width: 100,
+            height: 100,
+            right: 0,
+            top: 80,
+            borderStyle: 'solid',
+            borderColor: 'white',
+            borderWidth: 4,
+            boxSizing: 'border-box',
+          }}
+        ></View>
+        <View
+          style={{
+            position: 'absolute',
+            width: 100,
+            height: 100,
+            borderStyle: 'solid',
+            borderColor: 'white',
+            borderWidth: 4,
+            boxSizing: 'border-box',
+            bottom: 100,
+          }}
+        ></View>
+        <View
+          style={{
+            position: 'absolute',
+            width: 100,
+            height: 100,
+            borderStyle: 'solid',
+            borderColor: 'white',
+            borderWidth: 4,
+            boxSizing: 'border-box',
+            bottom: 100,
+            right: 0,
+          }}
+        ></View>
         <View
           style={{
             flex: 1,

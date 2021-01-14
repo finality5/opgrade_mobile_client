@@ -76,3 +76,19 @@ export const initialUserFetch = () => {
     }
   }
 }
+
+export const initialHostFetch = () => {
+  try {
+    return firebase
+      .database()
+      .ref('/host/')
+      .once('value')
+      .then((snapshot) => {
+        return snapshot.val()
+      })
+  } catch (error) {
+    return {
+      error: error.message,
+    }
+  }
+}

@@ -5,7 +5,15 @@ import Toast from '../components/Toast'
 
 import axios from 'axios'
 import { AppContext } from '../context/context'
-import { Container, Content, Text, View, Button, Icon } from 'native-base'
+import {
+  Container,
+  Content,
+  Text,
+  View,
+  Button,
+  Icon,
+  Spinner,
+} from 'native-base'
 import { StyleSheet, Image } from 'react-native'
 import { theme } from '../core/theme'
 import { Col, Row, Grid } from 'react-native-easy-grid'
@@ -18,14 +26,16 @@ const ResultScreen = ({ route, navigation }) => {
     <Container style={styles.container}>
       <HeaderTop goBack={navigation.goBack} title="result" />
       <Content padder>
-        <Text style={styles.header}>Grading Result</Text>
+        {/* <Text style={styles.header}>Grading Result</Text> */}
         <View style={styles.divider}></View>
         {img ? (
           <Image
             source={{ uri: img }}
-            style={{ height: 500, width: null, flex: 1 }}
+            style={{ height: 600, width: null, flex: 1 }}
           />
-        ) : null}
+        ) : (
+          <Spinner color="blue" />
+        )}
         <Button
           iconLeft
           style={styles.button}

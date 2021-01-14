@@ -13,4 +13,5 @@ export const theme = {
     opSecondary: '#2c393fff',
     opAlter: '#78909cff',
   },
+  host:'192.168.2.53:5000/'
 }

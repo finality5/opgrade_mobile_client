@@ -14,9 +14,10 @@ const CameraIndex = ({ navigation }) => {
   const sendImage = (image_data) => {
     let req = new FormData()
     req.append('image', image_data.base64)
-    req.append('name', 'testestest')
+    req.append('uid', 'po7oTcc2ZHN23GwkhgFFcfsmOXr1')
+    req.append('class_key','-MRzif6YrhitaPsQGFJG')
+    req.append('quiz_key','-MSQXrncXySqo-hJGH4Z')
     const url = 'http://' + host + ':5000' + '/get_image'
-    //console.log(url)
     axios.post(url, req).then((res) => {
       console.log('@@', res.data.url)
       setImg(res.data.url)

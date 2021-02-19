@@ -5,7 +5,7 @@ import { logoutUser } from '../api/auth-api'
 import HeaderTop from '../components/HeaderTop'
 import Toast from '../components/Toast'
 import { AppContext } from '../context/context'
-import { initialUserFetch, initialHostFetch } from '../api/auth-api'
+import { initialUserFetch, initialHostFetch,initialUserFetch2 } from '../api/auth-api'
 import ClassList from '../components/ClassList'
 import axios from 'axios'
 import { Container, Content } from 'native-base'
@@ -23,11 +23,24 @@ const Dashboard = ({ navigation }) => {
       } else {
         response
           .then((res) => {
-            console.log('###',res)
+            console.log('>>>',res)
             setUser(res)
           })
           .catch((err) => setError(err))
       }
+
+      const response2 = initialUserFetch2()
+      if (response2.error) {
+        setError(response2.error)
+      } else {
+        response2
+          .then((res) => {
+            console.log('@@@',res.data)
+            //setUser(res)
+          })
+          .catch((err) => setError(err))
+      }
+      
       const host = initialHostFetch()
       if (host.error) {
         setError(host.error)

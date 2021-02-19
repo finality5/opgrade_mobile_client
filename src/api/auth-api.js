@@ -1,6 +1,7 @@
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
+import axios from 'axios'
 export const logoutUser = () => {
   firebase.auth().signOut()
 }
@@ -70,6 +71,21 @@ export const initialUserFetch = () => {
       .once('value')
       .then((snapshot) => {
         return snapshot.val()
+      })
+  } catch (error) {
+    return {
+      error: error.message,
+    }
+  }
+}
+
+export const initialUserFetch2 = () => {
+  try {
+    const user = firebase.auth().currentUser
+    return axios
+      .get('http://127.0.0.1:5000/getclass?uid=' + user.uid)
+      .then((res) => {
+        return res.data
       })
   } catch (error) {
     return {

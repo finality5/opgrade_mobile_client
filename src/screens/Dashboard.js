@@ -23,7 +23,7 @@ const Dashboard = ({ navigation }) => {
       } else {
         response
           .then((res) => {
-            //console.log('#',res)
+            console.log('###',res)
             setUser(res)
           })
           .catch((err) => setError(err))

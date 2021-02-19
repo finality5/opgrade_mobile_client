@@ -10,7 +10,7 @@ const boxColor = ['opAlter', 'opSecondary', 'opPrimary']
 const ClassList = ({ navigation }) => {
   const { user } = useContext(AppContext)
   if (user) {
-    console.log('@', user.class_data)
+    //console.log('@', user.class_data)
     return user.class_data.map((obj, index) => (
       <Button
         key={obj.class_id}

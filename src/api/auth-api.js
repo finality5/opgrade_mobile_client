@@ -50,13 +50,14 @@ const initialUserData = (Name) => {
   })
   firebase
     .database()
-    .ref('users/' + user.uid)
+    .ref('user/' + user.uid)
     .set({
       user_data: {
         uid: user.uid,
         name: Name,
         email: user.email,
       },
+      class_data: '',
     })
 }
 

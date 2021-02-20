@@ -13,7 +13,7 @@ const ClassList = ({ navigation }) => {
     //console.log('@', user.class_data)
     return user.class_data.map((obj, index) => (
       <Button
-        key={obj.class_id}
+        key={obj.class_key}
         style={{
           width: '100%',
           height: 170,

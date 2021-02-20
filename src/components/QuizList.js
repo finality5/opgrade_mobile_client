@@ -5,7 +5,7 @@ const QuizList = ({ quiz, navigation }) => {
   return quiz.map((obj) => (
     <Button
       style={styles.quiz}
-      key={obj.quiz_id}
+      key={obj.quiz_key}
       onPress={() =>
         navigation.navigate('QuizIndex', {
           quiz: obj,

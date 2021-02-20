@@ -17,17 +17,17 @@ const Dashboard = ({ navigation }) => {
 
   useEffect(() => {
     if (!user) {
-      const response = initialUserFetch()
-      if (response.error) {
-        setError(response.error)
-      } else {
-        response
-          .then((res) => {
-            console.log('>>>',res)
-            setUser(res)
-          })
-          .catch((err) => setError(err))
-      }
+      // const response = initialUserFetch()
+      // if (response.error) {
+      //   setError(response.error)
+      // } else {
+      //   response
+      //     .then((res) => {
+      //       console.log('>>>',res)
+      //       setUser(res)
+      //     })
+      //     .catch((err) => setError(err))
+      // }
 
       const response2 = initialUserFetch2()
       if (response2.error) {
@@ -35,8 +35,8 @@ const Dashboard = ({ navigation }) => {
       } else {
         response2
           .then((res) => {
-            console.log('@@@',res.data)
-            //setUser(res)
+            console.log('@@@',res)
+            setUser(res)
           })
           .catch((err) => setError(err))
       }

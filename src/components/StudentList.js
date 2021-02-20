@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { Col, Row} from 'react-native-easy-grid'
 const StudentList = ({ student}) => {
     return student.map(obj=>
-    (<Row key={obj.student_id}>
+    (<Row key={obj.student_key}>
               <Col size={1}>
                 <View style={styles.student}>
                   <Text>{obj.student_id}</Text>

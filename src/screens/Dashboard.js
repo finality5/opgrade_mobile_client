@@ -17,18 +17,6 @@ const Dashboard = ({ navigation }) => {
 
   useEffect(() => {
     if (!user) {
-      // const response = initialUserFetch()
-      // if (response.error) {
-      //   setError(response.error)
-      // } else {
-      //   response
-      //     .then((res) => {
-      //       console.log('>>>',res)
-      //       setUser(res)
-      //     })
-      //     .catch((err) => setError(err))
-      // }
-
       const response2 = initialUserFetch2()
       if (response2.error) {
         setError(response2.error)
@@ -47,19 +35,12 @@ const Dashboard = ({ navigation }) => {
       } else {
         host
           .then((result) => {
-            console.log('###',result)
+            //console.log('###',result)
             setHost(result)
           })
           .catch((err) => setError(err))
       }
     }
-    // axios
-    //   .get('http://192.168.2.53:5000/class')
-    //   .then((res) => {
-    //     console.log('#',res.data.class_data)
-    //     //setTest(res.data.message)
-    //   })
-    //   .catch((err) => setError(err.message))
   }, [])
 
   return (

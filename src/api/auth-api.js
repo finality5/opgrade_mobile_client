@@ -79,11 +79,12 @@ export const initialUserFetch = () => {
   }
 }
 
-export const initialUserFetch2 = () => {
+export const initialUserFetch2 = async () => {
   try {
     const user = firebase.auth().currentUser
+    const host = await initialHostFetch()
     return axios
-      .get('http://127.0.0.1:5000/getclass?uid=' + user.uid)
+      .get(`http://${host}:5000/getclass?uid=${user.uid}`)
       .then((res) => {
         return res.data
       })

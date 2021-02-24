@@ -21,19 +21,6 @@ const QuizIndex = ({ route, navigation }) => {
       <Content padder>
         <Text style={styles.header}>{quiz.quiz_name}</Text>
         <View style={styles.divider}></View>
-
-        <Row>
-          <Col size={1}>
-            <View style={styles.quiz}>
-              <Text>Quiz ID</Text>
-            </View>
-          </Col>
-          <Col size={2}>
-            <View style={styles.quiz}>
-              <Text>{quiz.quiz_id}</Text>
-            </View>
-          </Col>
-        </Row>
         <Row>
           <Col size={1}>
             <View style={styles.quiz}>

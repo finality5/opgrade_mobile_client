@@ -46,9 +46,18 @@ const QuizIndex = ({ route, navigation }) => {
           </Col>
         </Row>
         <Row>
-          <Button iconLeft style={styles.button} onPress={() => navigation.replace('CameraIndex')}>
+          <Button iconLeft style={styles.button} onPress={() =>
+          navigation.navigate('CameraIndex')
+        }>
             <Icon name="ios-camera" />
             <Text>Scan Exam</Text>
+          </Button>
+          <Button iconLeft style={styles.button} onPress={() =>
+          navigation.navigate('StatScreen', {
+            title: 'Stats',
+          })
+        }>
+            <Text>Stat</Text>
           </Button>
         </Row>
         

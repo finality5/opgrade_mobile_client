@@ -57,6 +57,7 @@ const QuizIndex = ({ route, navigation }) => {
             title: 'Stats',
           })
         }>
+            <Icon name="ios-stats" />
             <Text>Stat</Text>
           </Button>
         </Row>
@@ -110,5 +111,6 @@ const styles = StyleSheet.create({
     flex: 1,
     fontFamily: 'Comfortaa',
     marginTop: 350,
+    
   },
 })

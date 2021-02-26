@@ -1,22 +1,43 @@
-import React, { useRef, useContext, useState } from 'react'
+import React, { useRef, useContext, useState, useEffect } from 'react'
 import HeaderTop from '../components/HeaderTop'
+import CircleWithinCircle from '../components/CircleWithinCircle'
 import { AppContext } from '../context/context'
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import { RNCamera } from 'react-native-camera'
-import { Container, Content, Text, View } from 'native-base'
+import {
+  Container,
+  Content,
+  Text,
+  View,
+  Button,
+  Icon,
+  Toast,
+} from 'native-base'
 import { theme } from '../core/theme'
 import axios from 'axios'
 
 const CameraIndex = ({ navigation }) => {
   const camera = useRef(null)
   const { img, setImg, host } = useContext(AppContext)
-  //const { imgUrl, setUrl } = useState()
+  const  [textToast, setText]  = useState('Processing...')
+  const  [showToast, setShow]  = useState(false)
+
+  const toastContent = {
+    text: textToast,
+    duration: 100000,
+    position: 'bottom',
+    style: { backgroundColor: 'blue', bottom: 400 },
+    textStyle: {
+      textAlign: 'center',
+    },
+  }
+
   const sendImage = (image_data) => {
     let req = new FormData()
     req.append('image', image_data.base64)
     req.append('uid', 'po7oTcc2ZHN23GwkhgFFcfsmOXr1')
-    req.append('class_key','-MRzif6YrhitaPsQGFJG')
-    req.append('quiz_key','-MSQXrncXySqo-hJGH4Z')
+    req.append('class_key', '-MRzif6YrhitaPsQGFJG')
+    req.append('quiz_key', '-MSQXrncXySqo-hJGH4Z')
     const url = 'http://' + host + ':5000' + '/get_image'
     axios.post(url, req).then((res) => {
       console.log('@@', res.data.url)
@@ -120,9 +141,16 @@ const CameraIndex = ({ navigation }) => {
             bottom: 0,
           }}
         >
-          <TouchableOpacity style={styles.capture} onPress={takePicture}>
-            <Text style={{ fontSize: 14 }}> SNAP </Text>
-          </TouchableOpacity>
+          <View style={styles.takePictureContainer}>
+            <TouchableOpacity onPress={() => {
+              setText('Processing...');
+              Toast.show(toastContent);
+            }}>
+              <View>
+                <CircleWithinCircle />
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </Container>
@@ -148,11 +176,16 @@ const styles = StyleSheet.create({
   },
   capture: {
     flex: 0,
-    backgroundColor: '#fff',
-    borderRadius: 5,
-    padding: 15,
-    paddingHorizontal: 20,
     alignSelf: 'center',
     margin: 20,
+  },
+  takePictureContainer: {
+    position: 'absolute',
+    paddingVertical: 20,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 })

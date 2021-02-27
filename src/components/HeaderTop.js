@@ -10,6 +10,7 @@ import {
   Icon,
   Title,
   Text,
+  Toast
 } from 'native-base'
 import { theme } from '../core/theme'
 const HeaderTop = ({ goBack, title }) => {
@@ -18,6 +19,12 @@ const HeaderTop = ({ goBack, title }) => {
       <Left>
         {title === "Classes"?(<Button transparent style={{ marginLeft: 30 }}>
             <Icon name="menu" style={{ color: 'white' }} />
+          </Button>):title === 'result'?(
+            <Button transparent style={{ marginLeft: 30 }} onPress={() => {
+              Toast.hide()
+              goBack()
+            }}>
+            <Icon name="ios-arrow-back" style={{ color: 'white' }} />
           </Button>):(
           <Button transparent style={{ marginLeft: 30 }} onPress={goBack}>
             <Icon name="ios-arrow-back" style={{ color: 'white' }} />

@@ -18,17 +18,21 @@ import axios from 'axios'
 
 const CameraIndex = ({ route, navigation }) => {
   const camera = useRef(null)
-  const { img, setImg, host, user } = useContext(AppContext)
+  const { setImg, host, user,setToast } = useContext(AppContext)
   const { quiz_key, class_key } = route.params
   const [onProcess, setProcess] = useState(false)
-
-  
-
+ 
   // useEffect(() => {
   //   console.log('uid: ', user.uid)
   //   console.log('quiz_key: ', quiz_key)
   //   console.log('class_key: ',class_key)
   // }, [])
+
+  const OnClose = (reason) => {
+    if (reason === 'user') {
+      navigation.navigate('ResultScreen')
+    }
+  }
 
   const sendImage = (image_data) => {
     let req = new FormData()
@@ -37,51 +41,69 @@ const CameraIndex = ({ route, navigation }) => {
     req.append('class_key', class_key)
     req.append('quiz_key', quiz_key)
     const url = 'http://' + host + ':5000' + '/get_image'
-    axios.post(url, req).then((res) => {
-      setProcess(false)
-      if (res.status === 200) {
-        console.log('@@', res.data)
-        setImg(res.data.url)
+    axios
+      .post(url, req)
+      .then((res) => {
+        setProcess(false)
+        if (res.status === 200) {
+          console.log('@@', res.data)
+          const displayText = `Student ID: ${res.data.std_id}\n\nResult: ${
+            res.data.score
+          }/${res.data.total}   ${(
+            (Math.round(res.data.score) / res.data.total) *
+            100
+          ).toFixed(2)}%`
+          setImg(res.data.url)
+          setToast(displayText)
+          Toast.show({
+            text: displayText,
+            duration: 5000,
+            position: 'top',
+            onClose: OnClose,
+            buttonText: 'See result',
+            buttonStyle: {
+              backgroundColor: '#2c393fff',
+              left: 110,
+              marginTop: 20,
+            },
+            style: {
+              top: 400,
+              flexDirection: 'column',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            },
+            textStyle: {
+              textAlign: 'center',
+            },
+          })
+          //navigation.replace('ResultScreen')
+        } else if (res.status === 201) {
+          console.log('@@@', res.data.message)
+          Toast.show({
+            text: `Error: ${res.data.message}\n\nplease try again.`,
+            duration: 3000,
+            position: 'top',
+            style: { top: 400 },
+            textStyle: {
+              textAlign: 'center',
+            },
+          })
+        }
+      })
+      .catch((error) => {
+        setProcess(false)
+        console.log('###', error.message)
         Toast.show({
-          text: `Student ID: ${res.data.std_id}\n\nResult: ${res.data.score}/${res.data.total
-            }   ${(
-              (Math.round(res.data.score) / res.data.total) *
-              100
-            ).toFixed(2)}%`,
-          duration: 10000,
+          text: `Error: ${error.message}\n\nplease try again.`,
+          duration: 3000,
           position: 'top',
           style: { top: 400 },
           textStyle: {
             textAlign: 'center',
           },
         })
-        //navigation.replace('ResultScreen')
-      }
-      else if (res.status === 201) { 
-        console.log('@@@', res.data.message)
-        Toast.show({
-          text: `Error: ${res.data.message}\n\nplease try again.`,
-          duration: 5000,
-          position: 'top',
-          style: { top: 400 },
-          textStyle: {
-            textAlign: 'center',
-          },
-        })
-      }
-      
-    }).catch(error => {
-      setProcess(false)
-      console.log('###', error.message)
-      Toast.show({
-        text: `Error: ${error.message}\n\nplease try again.`,
-        duration: 5000,
-        position: 'top',
-        style: { top: 400 },
-        textStyle: {
-          textAlign: 'center',
-        },
-      })})
+      })
   }
   const takePicture = async () => {
     try {
@@ -189,13 +211,15 @@ const CameraIndex = ({ route, navigation }) => {
             bottom: 0,
           }}
         >
-          {!onProcess?<View style={styles.takePictureContainer}>
-            <TouchableOpacity onPress={takePicture}>
-              <View>
-                <CircleWithinCircle />
-              </View>
-            </TouchableOpacity>
-          </View>:null}
+          {!onProcess ? (
+            <View style={styles.takePictureContainer}>
+              <TouchableOpacity onPress={takePicture}>
+                <View>
+                  <CircleWithinCircle />
+                </View>
+              </TouchableOpacity>
+            </View>
+          ) : null}
         </View>
       </View>
     </Container>

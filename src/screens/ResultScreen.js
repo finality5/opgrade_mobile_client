@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 
 import HeaderTop from '../components/HeaderTop'
-import Toast from '../components/Toast'
+
 
 import axios from 'axios'
 import { AppContext } from '../context/context'
@@ -13,15 +13,27 @@ import {
   Button,
   Icon,
   Spinner,
+  Toast
 } from 'native-base'
 import { StyleSheet, Image } from 'react-native'
 import { theme } from '../core/theme'
 import { Col, Row, Grid } from 'react-native-easy-grid'
 
-const ResultScreen = ({ route, navigation }) => {
-  const { img, setImg } = useContext(AppContext)
-  const [error, setError] = useState()
 
+const ResultScreen = ({ navigation }) => {
+  const { img, toastText } = useContext(AppContext)
+  useEffect(() => {
+    console.log('###url', img)
+    console.log('###display', toastText)
+    Toast.show({
+      text: toastText,
+      duration: 100000,
+      position: 'bottom',
+      textStyle: {
+        textAlign: 'center',
+      },
+    })
+  }, [])
   return (
     <Container style={styles.container}>
       <HeaderTop goBack={navigation.goBack} title="result" />
@@ -33,21 +45,12 @@ const ResultScreen = ({ route, navigation }) => {
             source={{ uri: img }}
             style={{ height: 600, width: null, flex: 1 }}
           />
+          
         ) : (
           <Spinner color="blue" />
         )}
-        <Button
-          iconLeft
-          style={styles.button}
-          onPress={() => {
-            setImg()
-            navigation.replace('CameraIndex')
-          }}
-        >
-          <Icon name="ios-camera" />
-          <Text>Scan Again</Text>
-        </Button>
-        <Toast message={error} onDismiss={() => setError('')} />
+
+      
       </Content>
     </Container>
   )

@@ -20,18 +20,9 @@ const CameraIndex = ({ route, navigation }) => {
   const camera = useRef(null)
   const { img, setImg, host, user } = useContext(AppContext)
   const { quiz_key, class_key } = route.params
-  const [textToast, setText] = useState('Processing...')
   const [showToast, setShow] = useState(false)
 
-  const toastContent = {
-    text: textToast,
-    duration: 100000,
-    position: 'bottom',
-    style: { bottom: 400 },
-    textStyle: {
-      textAlign: 'center',
-    },
-  }
+  
 
   // useEffect(() => {
   //   console.log('uid: ', user.uid)
@@ -47,7 +38,7 @@ const CameraIndex = ({ route, navigation }) => {
     req.append('quiz_key', quiz_key)
     const url = 'http://' + host + ':5000' + '/get_image'
     axios.post(url, req).then((res) => {
-      if (res.status == 200) {
+      if (res.status === 200) {
         console.log('@@', res.data)
         setImg(res.data.url)
         Toast.show({
@@ -65,11 +56,11 @@ const CameraIndex = ({ route, navigation }) => {
         })
         //navigation.replace('ResultScreen')
       }
-      else {
-        console.log('@@', res.data.message)
+      else if (res.status === 201) { 
+        console.log('@@@', res.data.message)
         Toast.show({
-          text: `Error: ${res.data.message}\nplease try again`,
-          duration: 10000,
+          text: `Error: ${res.data.message}\n\nplease try again.`,
+          duration: 5000,
           position: 'bottom',
           style: { bottom: 400 },
           textStyle: {
@@ -77,14 +68,33 @@ const CameraIndex = ({ route, navigation }) => {
           },
         })
       }
-    })
+      
+    }).catch(error => {
+      console.log('###', error.message)
+      Toast.show({
+        text: `Error: ${error.message}\n\nplease try again.`,
+        duration: 5000,
+        position: 'bottom',
+        style: { bottom: 400 },
+        textStyle: {
+          textAlign: 'center',
+        },
+      })})
   }
   const takePicture = async () => {
     try {
       const options = { quality: 0.5, base64: true }
       const data = await camera.current.takePictureAsync(options)
-      setText('Processing...')
-      Toast.show(toastContent)
+      
+      Toast.show({
+        text: `Processing...`,
+        duration: 10000,
+        position: 'bottom',
+        style: { bottom: 400 },
+        textStyle: {
+          textAlign: 'center',
+        },
+      })
       sendImage(data)
 
       console.log(data.uri, '<<<<<<<<<<<<<<<<<<<<<')

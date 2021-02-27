@@ -51,12 +51,11 @@ const CameraIndex = ({ route, navigation }) => {
         console.log('@@', res.data)
         setImg(res.data.url)
         Toast.show({
-          text: `Student ID: ${res.data.std_id}\n\nResult: ${res.data.score}/${
-            res.data.total
-          }   ${(
-            (Math.round(res.data.score) / res.data.total) *
-            100
-          ).toFixed(2)}%`,
+          text: `Student ID: ${res.data.std_id}\n\nResult: ${res.data.score}/${res.data.total
+            }   ${(
+              (Math.round(res.data.score) / res.data.total) *
+              100
+            ).toFixed(2)}%`,
           duration: 10000,
           position: 'bottom',
           style: { bottom: 400 },
@@ -65,6 +64,17 @@ const CameraIndex = ({ route, navigation }) => {
           },
         })
         //navigation.replace('ResultScreen')
+      }
+      else { 
+        Toast.show({
+          text: `Error\nplease try again`,
+          duration: 10000,
+          position: 'bottom',
+          style: { bottom: 400 },
+          textStyle: {
+            textAlign: 'center',
+          },
+        })
       }
     })
   }

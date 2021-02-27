@@ -65,9 +65,10 @@ const CameraIndex = ({ route, navigation }) => {
         })
         //navigation.replace('ResultScreen')
       }
-      else { 
+      else {
+        console.log('@@', res.data.message)
         Toast.show({
-          text: `Error\nplease try again`,
+          text: `Error: ${res.data.message}\nplease try again`,
           duration: 10000,
           position: 'bottom',
           style: { bottom: 400 },

@@ -20,7 +20,7 @@ const CameraIndex = ({ route, navigation }) => {
   const camera = useRef(null)
   const { img, setImg, host, user } = useContext(AppContext)
   const { quiz_key, class_key } = route.params
-  const [showToast, setShow] = useState(false)
+  const [onProcess, setProcess] = useState(false)
 
   
 
@@ -38,6 +38,7 @@ const CameraIndex = ({ route, navigation }) => {
     req.append('quiz_key', quiz_key)
     const url = 'http://' + host + ':5000' + '/get_image'
     axios.post(url, req).then((res) => {
+      setProcess(false)
       if (res.status === 200) {
         console.log('@@', res.data)
         setImg(res.data.url)
@@ -70,6 +71,7 @@ const CameraIndex = ({ route, navigation }) => {
       }
       
     }).catch(error => {
+      setProcess(false)
       console.log('###', error.message)
       Toast.show({
         text: `Error: ${error.message}\n\nplease try again.`,
@@ -85,7 +87,7 @@ const CameraIndex = ({ route, navigation }) => {
     try {
       const options = { quality: 0.5, base64: true }
       const data = await camera.current.takePictureAsync(options)
-      
+      setProcess(true)
       Toast.show({
         text: `Processing...`,
         duration: 10000,
@@ -187,13 +189,13 @@ const CameraIndex = ({ route, navigation }) => {
             bottom: 0,
           }}
         >
-          <View style={styles.takePictureContainer}>
+          {!onProcess?<View style={styles.takePictureContainer}>
             <TouchableOpacity onPress={takePicture}>
               <View>
                 <CircleWithinCircle />
               </View>
             </TouchableOpacity>
-          </View>
+          </View>:null}
         </View>
       </View>
     </Container>

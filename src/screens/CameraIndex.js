@@ -16,29 +16,29 @@ import {
 import { theme } from '../core/theme'
 import axios from 'axios'
 
-const CameraIndex = ({ route,navigation }) => {
+const CameraIndex = ({ route, navigation }) => {
   const camera = useRef(null)
   const { img, setImg, host, user } = useContext(AppContext)
   const { quiz_key, class_key } = route.params
-  const  [textToast, setText]  = useState('Processing...')
-  const  [showToast, setShow]  = useState(false)
+  const [textToast, setText] = useState('Processing...')
+  const [showToast, setShow] = useState(false)
 
   const toastContent = {
     text: textToast,
     duration: 100000,
     position: 'bottom',
-    style: { backgroundColor: 'blue', bottom: 400 },
+    style: { bottom: 400 },
     textStyle: {
       textAlign: 'center',
     },
   }
 
-  // useEffect(() => { 
+  // useEffect(() => {
   //   console.log('uid: ', user.uid)
   //   console.log('quiz_key: ', quiz_key)
   //   console.log('class_key: ',class_key)
   // }, [])
-  
+
   const sendImage = (image_data) => {
     let req = new FormData()
     req.append('image', image_data.base64)
@@ -47,17 +47,35 @@ const CameraIndex = ({ route,navigation }) => {
     req.append('quiz_key', quiz_key)
     const url = 'http://' + host + ':5000' + '/get_image'
     axios.post(url, req).then((res) => {
-      console.log('@@', res.data.url)
-      setImg(res.data.url)
+      if (res.status == 200) {
+        console.log('@@', res.data)
+        setImg(res.data.url)
+        Toast.show({
+          text: `Student ID: ${res.data.std_id}\n\nResult: ${res.data.score}/${
+            res.data.total
+          }   ${(
+            (Math.round(res.data.score) / res.data.total) *
+            100
+          ).toFixed(2)}%`,
+          duration: 10000,
+          position: 'bottom',
+          style: { bottom: 400 },
+          textStyle: {
+            textAlign: 'center',
+          },
+        })
+        //navigation.replace('ResultScreen')
+      }
     })
   }
   const takePicture = async () => {
     try {
       const options = { quality: 0.5, base64: true }
       const data = await camera.current.takePictureAsync(options)
-      //setImg(data.uri)
+      setText('Processing...')
+      Toast.show(toastContent)
       sendImage(data)
-      navigation.replace('ResultScreen')
+
       console.log(data.uri, '<<<<<<<<<<<<<<<<<<<<<')
     } catch (error) {
       console.log(error, 'ERROR <<<<<<<<<<<<<')
@@ -149,10 +167,7 @@ const CameraIndex = ({ route,navigation }) => {
           }}
         >
           <View style={styles.takePictureContainer}>
-            <TouchableOpacity onPress={() => {
-              setText('Processing...');
-              Toast.show(toastContent);
-            }}>
+            <TouchableOpacity onPress={takePicture}>
               <View>
                 <CircleWithinCircle />
               </View>

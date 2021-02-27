@@ -5,15 +5,16 @@ import Toast from '../components/Toast'
 import axios from 'axios'
 import { AppContext } from '../context/context'
 import { Container, Content, Text, View, Button, Icon } from 'native-base'
-import { StyleSheet,Image } from 'react-native'
+import { StyleSheet, Image } from 'react-native'
 import { theme } from '../core/theme'
 import { Col, Row } from 'react-native-easy-grid'
 
-
 const QuizIndex = ({ route, navigation }) => {
-  const { img,setImg} = useContext(AppContext)
+  const { img, setImg } = useContext(AppContext)
   const [error, setError] = useState()
-  const { quiz } = route.params
+  const { quiz, Class_key } = route.params
+
+
 
   return (
     <Container style={styles.container}>
@@ -46,22 +47,33 @@ const QuizIndex = ({ route, navigation }) => {
           </Col>
         </Row>
         <Row>
-          <Button iconLeft style={styles.button} onPress={() =>
-          navigation.navigate('CameraIndex')
-        }>
+          <Button
+            iconLeft
+            style={styles.button}
+            onPress={() =>
+              navigation.navigate('CameraIndex', {
+                quiz_key: quiz.quiz_key,
+                class_key: Class_key,
+              })
+            }
+          >
             <Icon name="ios-camera" />
             <Text>Scan Exam</Text>
           </Button>
-          <Button iconLeft style={styles.button} onPress={() =>
-          navigation.navigate('StatScreen', {
-            title: 'Stats',
-          })
-        }>
+          <Button
+            iconLeft
+            style={styles.button}
+            onPress={() =>
+              navigation.navigate('StatScreen', {
+                title: 'Stats',
+              })
+            }
+          >
             <Icon name="ios-stats" />
             <Text>Stat</Text>
           </Button>
         </Row>
-        
+
         <Toast message={error} onDismiss={() => setError('')} />
       </Content>
     </Container>
@@ -111,6 +123,5 @@ const styles = StyleSheet.create({
     flex: 1,
     fontFamily: 'Comfortaa',
     marginTop: 350,
-    
   },
 })

@@ -17,6 +17,7 @@ const ClassIndex = ({ route, navigation }) => {
   const { title, classId } = route.params
 
   const classCurrent = user.class_data.filter((obj) => obj.class_id === classId)
+  
   return (
     <Container style={styles.container}>
       <HeaderTop goBack={navigation.goBack} title={title} />
@@ -52,7 +53,7 @@ const ClassIndex = ({ route, navigation }) => {
         <Text style={styles.header}>Quiz</Text>
         <View style={styles.divider}></View>
         
-              <QuizList quiz={classCurrent[0].quiz} navigation={navigation}/>
+        <QuizList quiz={classCurrent[0].quiz} class_key={ classCurrent[0].class_key} navigation={navigation}/>
         <Text style={styles.header}>Student</Text>
         <View style={styles.divider}></View>
 

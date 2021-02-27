@@ -16,9 +16,10 @@ import {
 import { theme } from '../core/theme'
 import axios from 'axios'
 
-const CameraIndex = ({ navigation }) => {
+const CameraIndex = ({ route,navigation }) => {
   const camera = useRef(null)
-  const { img, setImg, host } = useContext(AppContext)
+  const { img, setImg, host, user } = useContext(AppContext)
+  const { quiz_key, class_key } = route.params
   const  [textToast, setText]  = useState('Processing...')
   const  [showToast, setShow]  = useState(false)
 
@@ -32,12 +33,18 @@ const CameraIndex = ({ navigation }) => {
     },
   }
 
+  // useEffect(() => { 
+  //   console.log('uid: ', user.uid)
+  //   console.log('quiz_key: ', quiz_key)
+  //   console.log('class_key: ',class_key)
+  // }, [])
+  
   const sendImage = (image_data) => {
     let req = new FormData()
     req.append('image', image_data.base64)
-    req.append('uid', 'po7oTcc2ZHN23GwkhgFFcfsmOXr1')
-    req.append('class_key', '-MRzif6YrhitaPsQGFJG')
-    req.append('quiz_key', '-MSQXrncXySqo-hJGH4Z')
+    req.append('uid', user.uid)
+    req.append('class_key', class_key)
+    req.append('quiz_key', quiz_key)
     const url = 'http://' + host + ':5000' + '/get_image'
     axios.post(url, req).then((res) => {
       console.log('@@', res.data.url)

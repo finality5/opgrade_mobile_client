@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Button } from 'native-base'
-const QuizList = ({ quiz, navigation }) => {
+const QuizList = ({ quiz, class_key, navigation }) => {
   return quiz.map((obj) => (
     <Button
       style={styles.quiz}
@@ -9,6 +9,7 @@ const QuizList = ({ quiz, navigation }) => {
       onPress={() =>
         navigation.navigate('QuizIndex', {
           quiz: obj,
+          Class_key: class_key,
         })
       }
     >
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     paddingLeft: 15,
     paddingRight: 15,
-    
+
     fontFamily: 'Comfortaa',
   },
 })

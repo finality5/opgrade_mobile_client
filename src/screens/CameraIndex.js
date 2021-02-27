@@ -48,8 +48,8 @@ const CameraIndex = ({ route, navigation }) => {
               100
             ).toFixed(2)}%`,
           duration: 10000,
-          position: 'bottom',
-          style: { bottom: 400 },
+          position: 'top',
+          style: { top: 400 },
           textStyle: {
             textAlign: 'center',
           },
@@ -61,8 +61,8 @@ const CameraIndex = ({ route, navigation }) => {
         Toast.show({
           text: `Error: ${res.data.message}\n\nplease try again.`,
           duration: 5000,
-          position: 'bottom',
-          style: { bottom: 400 },
+          position: 'top',
+          style: { top: 400 },
           textStyle: {
             textAlign: 'center',
           },
@@ -74,8 +74,8 @@ const CameraIndex = ({ route, navigation }) => {
       Toast.show({
         text: `Error: ${error.message}\n\nplease try again.`,
         duration: 5000,
-        position: 'bottom',
-        style: { bottom: 400 },
+        position: 'top',
+        style: { top: 400 },
         textStyle: {
           textAlign: 'center',
         },
@@ -89,8 +89,8 @@ const CameraIndex = ({ route, navigation }) => {
       Toast.show({
         text: `Processing...`,
         duration: 10000,
-        position: 'bottom',
-        style: { bottom: 400 },
+        position: 'top',
+        style: { top: 400 },
         textStyle: {
           textAlign: 'center',
         },

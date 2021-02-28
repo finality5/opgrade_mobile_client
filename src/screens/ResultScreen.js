@@ -22,18 +22,6 @@ import { Col, Row, Grid } from 'react-native-easy-grid'
 
 const ResultScreen = ({ navigation }) => {
   const { img, toastText } = useContext(AppContext)
-  useEffect(() => {
-    console.log('###url', img)
-    console.log('###display', toastText)
-    Toast.show({
-      text: toastText,
-      duration: 100000,
-      position: 'bottom',
-      textStyle: {
-        textAlign: 'center',
-      },
-    })
-  }, [])
   return (
     <Container style={styles.container}>
       <HeaderTop goBack={navigation.goBack} title="result" />

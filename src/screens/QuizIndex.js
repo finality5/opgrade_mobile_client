@@ -14,8 +14,6 @@ const QuizIndex = ({ route, navigation }) => {
   const [error, setError] = useState()
   const { quiz, Class_key } = route.params
 
-
-
   return (
     <Container style={styles.container}>
       <HeaderTop goBack={navigation.goBack} title="Quiz" />
@@ -71,6 +69,21 @@ const QuizIndex = ({ route, navigation }) => {
           >
             <Icon name="ios-stats" />
             <Text>Stat</Text>
+          </Button>
+        </Row>
+        <Row>
+          <Button
+            iconLeft
+            style={styles.button}
+            onPress={() =>
+              navigation.navigate('ReviewScreen', {
+                title: 'Review',
+                quiz:quiz
+              })
+            }
+          >
+            <Icon name="ios-paper" />
+            <Text>Review</Text>
           </Button>
         </Row>
 

@@ -78,7 +78,8 @@ const QuizIndex = ({ route, navigation }) => {
             onPress={() =>
               navigation.navigate('ReviewScreen', {
                 title: 'Review',
-                quiz:quiz
+                quiz: quiz,
+                class_key: Class_key
               })
             }
           >

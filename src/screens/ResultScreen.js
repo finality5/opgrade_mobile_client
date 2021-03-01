@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from 'react'
 
 import HeaderTop from '../components/HeaderTop'
 
-
 import axios from 'axios'
 import { AppContext } from '../context/context'
 import {
@@ -13,15 +12,24 @@ import {
   Button,
   Icon,
   Spinner,
-  Toast
+  Toast,
 } from 'native-base'
 import { StyleSheet, Image } from 'react-native'
 import { theme } from '../core/theme'
 import { Col, Row, Grid } from 'react-native-easy-grid'
 
-
 const ResultScreen = ({ navigation }) => {
   const { img, toastText } = useContext(AppContext)
+  useEffect(() => {
+    Toast.show({
+      text: toastText,
+      duration: 100000,
+      position: 'bottom',
+      textStyle: {
+        textAlign: 'center',
+      },
+    })
+  }, [])
   return (
     <Container style={styles.container}>
       <HeaderTop goBack={navigation.goBack} title="result" />
@@ -33,12 +41,9 @@ const ResultScreen = ({ navigation }) => {
             source={{ uri: img }}
             style={{ height: 600, width: null, flex: 1 }}
           />
-          
         ) : (
           <Spinner color="blue" />
         )}
-
-      
       </Content>
     </Container>
   )

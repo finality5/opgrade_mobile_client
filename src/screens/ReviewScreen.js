@@ -10,15 +10,22 @@ import { StyleSheet } from 'react-native'
 
 import { Col, Row, Grid } from 'react-native-easy-grid'
 const ReviewScreen = ({ route, navigation }) => {
-  
+  const { user, host } = useContext(AppContext)
   const [error, setError] = useState()
-  const { title,quiz} = route.params
-  useEffect(() => { console.log('###',quiz)},[])
+  const { title, quiz, class_key } = route.params
+  useEffect(() => {
+    console.log('###uid', user.uid)
+    console.log('###quizKey', quiz.quiz_key)
+    console.log('###classKey', class_key)
+    const url = `http://${host}:5000/getscore?uid=${user.uid}&class_key=${class_key}&quiz_key=${quiz.quiz_key}`
+    axios.get(url).then(res=>console.log('$$$',res.data))
+  }, [])
+
   return (
     <Container style={styles.container}>
       <HeaderTop goBack={navigation.goBack} title={title} />
       <Content padder>
-        <Text style={styles.header}>{ quiz.quiz_name}</Text>
+        <Text style={styles.header}>{quiz.quiz_name}</Text>
         <View style={styles.divider}></View>
         <Grid>
           <Row>
@@ -33,9 +40,7 @@ const ReviewScreen = ({ route, navigation }) => {
               </View>
             </Col>
           </Row>
-        
         </Grid>
-       
 
         <Toast message={error} onDismiss={() => setError('')} />
       </Content>

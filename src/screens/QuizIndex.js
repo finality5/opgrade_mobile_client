@@ -45,47 +45,41 @@ const QuizIndex = ({ route, navigation }) => {
           </Col>
         </Row>
         <Row>
-          <Button
-            iconLeft
-            style={styles.button}
-            onPress={() =>
-              navigation.navigate('CameraIndex', {
-                quiz_key: quiz.quiz_key,
-                class_key: Class_key,
-              })
-            }
-          >
-            <Icon name="ios-camera" />
-            <Text>Scan Exam</Text>
-          </Button>
-          <Button
-            iconLeft
-            style={styles.button}
-            onPress={() =>
-              navigation.navigate('StatScreen', {
-                title: 'Stats',
-              })
-            }
-          >
-            <Icon name="ios-stats" />
-            <Text>Stat</Text>
-          </Button>
-        </Row>
-        <Row>
-          <Button
-            iconLeft
-            style={styles.button}
-            onPress={() =>
-              navigation.navigate('ReviewScreen', {
-                title: 'Review',
-                quiz: quiz,
-                class_key: Class_key
-              })
-            }
-          >
-            <Icon name="ios-paper" />
-            <Text>Review</Text>
-          </Button>
+          <Col>
+            <View>
+              <Button
+                iconLeft
+                style={styles.button}
+                onPress={() =>
+                  navigation.navigate('CameraIndex', {
+                    quiz_key: quiz.quiz_key,
+                    class_key: Class_key,
+                  })
+                }
+              >
+                <Icon name="ios-camera" />
+                <Text>Scan Exam</Text>
+              </Button>
+            </View>
+          </Col>
+          <Col>
+            <View>
+              <Button
+                iconLeft
+                style={styles.button}
+                onPress={() =>
+                  navigation.navigate('ReviewScreen', {
+                    title: 'Review',
+                    quiz: quiz,
+                    class_key: Class_key,
+                  })
+                }
+              >
+                <Icon name="ios-paper" />
+                <Text>Review</Text>
+              </Button>
+            </View>
+          </Col>
         </Row>
 
         <Toast message={error} onDismiss={() => setError('')} />
@@ -136,6 +130,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     fontFamily: 'Comfortaa',
-    marginTop: 350,
+    marginTop: 500,
+    width:180
   },
 })

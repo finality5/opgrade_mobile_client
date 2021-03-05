@@ -46,7 +46,7 @@ const QuizIndex = ({ route, navigation }) => {
         </Row>
         <Row>
           <Col>
-            <View>
+            <View style={{padding:10}}>
               <Button
                 iconLeft
                 style={styles.button}
@@ -63,7 +63,7 @@ const QuizIndex = ({ route, navigation }) => {
             </View>
           </Col>
           <Col>
-            <View>
+            <View style={{padding:10}}>
               <Button
                 iconLeft
                 style={styles.button}
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     fontFamily: 'Comfortaa',
-    marginTop: 500,
+    marginTop: 400,
     width:180
   },
 })

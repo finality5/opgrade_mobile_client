@@ -87,7 +87,15 @@ const ReviewScreen = ({ route, navigation }) => {
           <Grid>
             {data
               ? grade.map((obj) => (
-                  <Row key={obj.student_key}>
+                  <Row key={obj.student_key} onPress={() =>
+                    navigation.navigate('StatusScreen', {
+                      title: 'Status',
+                      quiz: quiz,
+                      class_key: class_key,
+                      student: obj,
+                      status:0
+                    })
+                  }>
                     <Col size={1}>
                       <View style={styles.grade}>
                         <Text style={{ color: 'white' }}>{obj.student_id}</Text>

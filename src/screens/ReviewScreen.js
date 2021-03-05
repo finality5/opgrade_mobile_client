@@ -170,7 +170,15 @@ const ReviewScreen = ({ route, navigation }) => {
           <Grid>
             {data
               ? duplicate.map((obj) => (
-                  <Row key={obj.student_key}>
+                  <Row key={obj.student_key} onPress={() =>
+                    navigation.navigate('StatusScreen', {
+                      title: 'Status',
+                      quiz: quiz,
+                      class_key: class_key,
+                      student: obj,
+                      status: 2,
+                    })
+                  }>
                     <Col size={1}>
                       <View style={styles.quiz}>
                         <Text>{obj.student_id}</Text>

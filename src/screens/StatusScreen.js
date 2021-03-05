@@ -20,7 +20,7 @@ import { Col, Row, Grid } from 'react-native-easy-grid'
 
 //const status = { 0: 'graded', 1: 'ungraded', 2: 'duplicate' }
 
-const ReviewScreen = ({ route, navigation }) => {
+const StatusScreen = ({ route, navigation }) => {
   const { user, host } = useContext(AppContext)
   const [error, setError] = useState()
   const { title, quiz, class_key, student, status } = route.params
@@ -317,7 +317,7 @@ const ReviewScreen = ({ route, navigation }) => {
   )
 }
 
-export default ReviewScreen
+export default StatusScreen
 
 const styles = StyleSheet.create({
   container: {

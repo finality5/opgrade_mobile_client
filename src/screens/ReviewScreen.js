@@ -18,16 +18,32 @@ const ReviewScreen = ({ route, navigation }) => {
   const [grade, setGrade] = useState([])
   const [ungrade, setUngrade] = useState([])
   const [duplicate, setDuplicate] = useState([])
-  useEffect(() => {
-    // console.log('###uid', user.uid)
-    // console.log('###quizKey', quiz.quiz_key)
-    // console.log('###classKey', class_key)
+
+  const ScoreFetch = () => { 
     setFetch(true)
     const url = `http://${host}:5000/getscore?uid=${user.uid}&class_key=${class_key}&quiz_key=${quiz.quiz_key}`
     axios.get(url).then((res) => {
       setData(res.data.score_data)
       setFetch(false)
-      console.log('$$$', res.data.score_data)
+      //console.log('$$$', res.data.score_data)
+    })
+  }
+  // useEffect(() => {
+  //   // console.log('###uid', user.uid)
+  //   // console.log('###quizKey', quiz.quiz_key)
+  //   // console.log('###classKey', class_key)
+  //   ScoreFetch();
+  // }, [])
+
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      setFetch(true)
+      const url = `http://${host}:5000/getscore?uid=${user.uid}&class_key=${class_key}&quiz_key=${quiz.quiz_key}`
+      axios.get(url).then((res) => {
+        setData(res.data.score_data)
+        setFetch(false)
+        //console.log('$$$', res.data.score_data)
+      })
     })
   }, [])
 
@@ -87,15 +103,18 @@ const ReviewScreen = ({ route, navigation }) => {
           <Grid>
             {data
               ? grade.map((obj) => (
-                  <Row key={obj.student_key} onPress={() =>
-                    navigation.navigate('StatusScreen', {
-                      title: 'Status',
-                      quiz: quiz,
-                      class_key: class_key,
-                      student: obj,
-                      status:0
-                    })
-                  }>
+                  <Row
+                    key={obj.student_key}
+                    onPress={() =>
+                      navigation.navigate('StatusScreen', {
+                        title: 'Status',
+                        quiz: quiz,
+                        class_key: class_key,
+                        student: obj,
+                        status: 0,
+                      })
+                    }
+                  >
                     <Col size={1}>
                       <View style={styles.grade}>
                         <Text style={{ color: 'white' }}>{obj.student_id}</Text>
@@ -118,15 +137,28 @@ const ReviewScreen = ({ route, navigation }) => {
           <Grid>
             {data
               ? ungrade.map((obj) => (
-                  <Row key={obj.student_key}>
+                  <Row
+                    key={obj.student_key}
+                    onPress={() =>
+                      navigation.navigate('StatusScreen', {
+                        title: 'Status',
+                        quiz: quiz,
+                        class_key: class_key,
+                        student: obj,
+                        status: 1,
+                      })
+                    }
+                  >
                     <Col size={1}>
                       <View style={styles.ungrade}>
-                        <Text style={{color:'white'}}>{obj.student_id}</Text>
+                        <Text style={{ color: 'white' }}>{obj.student_id}</Text>
                       </View>
                     </Col>
                     <Col size={2}>
                       <View style={styles.ungrade}>
-                        <Text style={{color:'white'}}>{obj.student_name}</Text>
+                        <Text style={{ color: 'white' }}>
+                          {obj.student_name}
+                        </Text>
                       </View>
                     </Col>
                   </Row>

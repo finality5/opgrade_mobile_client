@@ -54,6 +54,7 @@ const QuizIndex = ({ route, navigation }) => {
                   navigation.navigate('CameraIndex', {
                     quiz_key: quiz.quiz_key,
                     class_key: Class_key,
+                    student_key:null
                   })
                 }
               >
@@ -131,6 +132,6 @@ const styles = StyleSheet.create({
     flex: 1,
     fontFamily: 'Comfortaa',
     marginTop: 400,
-    width:180
+    width:160
   },
 })

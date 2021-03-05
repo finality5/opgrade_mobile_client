@@ -19,7 +19,7 @@ import axios from 'axios'
 const CameraIndex = ({ route, navigation }) => {
   const camera = useRef(null)
   const { setImg, host, user,setToast } = useContext(AppContext)
-  const { quiz_key, class_key } = route.params
+  const { quiz_key, class_key,student_key } = route.params
   const [onProcess, setProcess] = useState(false)
  
   // useEffect(() => {
@@ -40,6 +40,7 @@ const CameraIndex = ({ route, navigation }) => {
     req.append('uid', user.uid)
     req.append('class_key', class_key)
     req.append('quiz_key', quiz_key)
+    req.append('student_key', student_key)
     const url = 'http://' + host + ':5000' + '/get_image'
     axios
       .post(url, req)

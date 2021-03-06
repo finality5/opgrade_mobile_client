@@ -54,7 +54,7 @@ const StatusScreen = ({ route, navigation }) => {
       if (res.status === 200) {
         Toast.show({
           text: res.data.message,
-          duration: 1500,
+          duration: 500,
           position: 'top',
           onClose: OnClose,
           style: {
@@ -178,7 +178,7 @@ const StatusScreen = ({ route, navigation }) => {
             </Col>
           </Row>
           <Row>
-            <Col size={3}>
+            <Col size={4}>
               <Text style={styles.header}>Select Answer Paper</Text>
             </Col>
             <Col size={1}>

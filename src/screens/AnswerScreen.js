@@ -16,16 +16,40 @@ import {
   Item,
   Input,
   Label,
-  Toast
+  Toast,
 } from 'native-base'
 import { StyleSheet } from 'react-native'
 import { theme } from '../core/theme'
 import { Col, Row, Grid } from 'react-native-easy-grid'
 const AnswerScreen = ({ route, navigation }) => {
   const [error, setError] = useState()
-  const [text, onChangeText] = useState("")
+  const [text, onChangeText] = useState('')
   const { title, quiz_key, class_key, answer } = route.params
-  //console.log('###', text)
+  const [data, setData] = useState([])
+
+  useEffect(() => {
+    if (answer) {
+      Object.entries(answer).forEach(([key, value]) => {
+        let tmp = {}
+        for (let i = 0; i < value.quiz_answer.length; i++) {
+          tmp[i] = value.quiz_answer[i]
+        }
+        setData((prev) => [
+          ...prev,
+          {
+            answer_key: key,
+            answer_url: value.answer_url,
+            answer_name: value.answer_name,
+            answer_quiz: tmp,
+          },
+        ])
+      })
+      //console.log(answer)
+    }
+  }, [])
+
+  console.log('###', data)
+
   return (
     <Container style={styles.container}>
       <HeaderTop goBack={navigation.goBack} title={title} />
@@ -59,13 +83,12 @@ const AnswerScreen = ({ route, navigation }) => {
             <Button
               iconLeft
               style={styles.button}
-              onPress={() =>
-              {
-                if (text !== "") {
+              onPress={() => {
+                if (text !== '') {
                   navigation.navigate('CameraAnswer', {
                     quiz_key: quiz_key,
                     class_key: class_key,
-                    answer_name: text
+                    answer_name: text,
                   })
                 } else {
                   Toast.show({
@@ -77,16 +100,14 @@ const AnswerScreen = ({ route, navigation }) => {
                       textAlign: 'center',
                     },
                   })
-                }}
-              }
+                }
+              }}
             >
               <Icon name="ios-camera" />
               <Text>Scan Answer</Text>
             </Button>
           </Row>
         </Grid>
-
-        
       </Content>
     </Container>
   )

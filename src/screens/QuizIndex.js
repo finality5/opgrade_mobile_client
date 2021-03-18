@@ -13,7 +13,7 @@ const QuizIndex = ({ route, navigation }) => {
   const { img, setImg } = useContext(AppContext)
   const [error, setError] = useState()
   const { quiz, Class_key } = route.params
-  //console.log('@@@', quiz)
+  console.log('@@@', quiz)
   return (
     <Container style={styles.container}>
       <HeaderTop goBack={navigation.goBack} title="Quiz" />

@@ -19,14 +19,15 @@ import axios from 'axios'
 const CameraAnswer = ({ route, navigation }) => {
   const camera = useRef(null)
   const { setImg, host, user,setToast } = useContext(AppContext)
-  const { quiz_key, class_key,student_key } = route.params
+  const { quiz_key, class_key } = route.params
   const [onProcess, setProcess] = useState(false)
- 
-  // useEffect(() => {
-  //   console.log('uid: ', user.uid)
-  //   console.log('quiz_key: ', quiz_key)
-  //   console.log('class_key: ',class_key)
-  // }, [])
+
+  //console.log(quiz_key, class_key)
+  useEffect(() => {
+    console.log('uid: ', user.uid)
+    console.log('quiz_key: ', quiz_key)
+    console.log('class_key: ',class_key)
+  }, [])
 
   const OnClose = (reason) => {
     if (reason === 'user') {
@@ -42,70 +43,68 @@ const CameraAnswer = ({ route, navigation }) => {
     req.append('quiz_key', quiz_key)
     
     const url = 'http://' + host + ':5000' + '/get_answer'
-    // axios
-    //   .post(url, req)
-    //   .then((res) => {
-    //     setProcess(false)
-    //     if (res.status === 200) {
-    //       console.log('@@', res.data)
-    //       const displayText = `Student ID: ${res.data.std_id}\n\nResult: ${
-    //         res.data.score
-    //       }/${res.data.total}   ${(
-    //         (Math.round(res.data.score) / res.data.total) *
-    //         100
-    //       ).toFixed(2)}%`
-    //       setImg(res.data.url)
-    //       setToast(displayText)
-    //       Toast.show({
-    //         text: displayText,
-    //         duration: 20000,
-    //         position: 'top',
-    //         onClose: OnClose,
-    //         buttonText: 'See result',
-    //         buttonStyle: {
-    //           backgroundColor: '#2c393fff',
-    //           left: 110,
-    //           marginTop: 20,
-    //         },
-    //         style: {
-    //           top: 400,
-    //           flexDirection: 'column',
-    //           display: 'flex',
-    //           justifyContent: 'center',
-    //           alignItems: 'center',
-    //         },
-    //         textStyle: {
-    //           textAlign: 'center',
-    //         },
-    //       })
-    //       //navigation.replace('ResultScreen')
-    //     } else if (res.status === 201) {
-    //       console.log('@@@', res.data.message)
-    //       Toast.show({
-    //         text: `Error: ${res.data.message}\n\nplease try again.`,
-    //         duration: 3000,
-    //         position: 'top',
-    //         style: { top: 400 },
-    //         textStyle: {
-    //           textAlign: 'center',
-    //         },
-    //       })
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     setProcess(false)
-    //     console.log('###', error.message)
-    //     Toast.show({
-    //       text: `Error: ${error.message}\n\nplease try again.`,
-    //       duration: 3000,
-    //       position: 'top',
-    //       style: { top: 400 },
-    //       textStyle: {
-    //         textAlign: 'center',
-    //       },
-    //     })
-    //   })
+    //axios.post(url, req).then(res => console.log(res.data)).catch(err => console.log(err.message))
+  
+    axios
+      .post(url, req)
+      .then((res) => {
+        setProcess(false)
+        if (res.status === 200) {
+          console.log('@@', res.data)
+          const displayText = `Successfully imported answer`
+          setImg(res.data.url)
+          setToast(displayText)
+          Toast.show({
+            text: displayText,
+            duration: 20000,
+            position: 'top',
+            onClose: OnClose,
+            buttonText: 'See result',
+            buttonStyle: {
+              backgroundColor: '#2c393fff',
+              left: 110,
+              marginTop: 20,
+            },
+            style: {
+              top: 400,
+              flexDirection: 'column',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            },
+            textStyle: {
+              textAlign: 'center',
+            },
+          })
+          //navigation.replace('ResultScreen')
+        } else if (res.status === 201) {
+          console.log('@@@', res.data.message)
+          Toast.show({
+            text: `Error: ${res.data.message}\n\nplease try again.`,
+            duration: 3000,
+            position: 'top',
+            style: { top: 400 },
+            textStyle: {
+              textAlign: 'center',
+            },
+          })
+        }
+      })
+      .catch((error) => {
+        setProcess(false)
+        console.log('###', error.message)
+        Toast.show({
+          text: `Error: ${error.message}\n\nplease try again.`,
+          duration: 3000,
+          position: 'top',
+          style: { top: 400 },
+          textStyle: {
+            textAlign: 'center',
+          },
+        })
+      })
   }
+  
   const takePicture = async () => {
     try {
       const options = { quality: 0.5, base64: true }

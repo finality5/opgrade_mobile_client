@@ -1,19 +1,18 @@
 import React, { useState, useEffect, useContext } from 'react'
-import Button from '../components/Button'
+
 import HeaderTop from '../components/HeaderTop'
 import Toast from '../components/Toast'
 
 import axios from 'axios'
 import { AppContext } from '../context/context'
-import { Container, Content, Text, View } from 'native-base'
+import { Container, Content, Text, View, Icon, Button } from 'native-base'
 import { StyleSheet } from 'react-native'
-
+import { theme } from '../core/theme'
 import { Col, Row, Grid } from 'react-native-easy-grid'
 const AnswerScreen = ({ route, navigation }) => {
-  
   const [error, setError] = useState()
-  const { title,quiz_key,class_key} = route.params
-  console.log('###',quiz_key,class_key)
+  const { title, quiz_key, class_key } = route.params
+  //console.log('###', quiz_key, class_key)
   return (
     <Container style={styles.container}>
       <HeaderTop goBack={navigation.goBack} title={title} />
@@ -33,9 +32,22 @@ const AnswerScreen = ({ route, navigation }) => {
               </View>
             </Col>
           </Row>
-        
+          <Row>
+            <Button
+              iconLeft
+              style={styles.button}
+              onPress={() =>
+                navigation.navigate('CameraAnswer', {
+                  quiz_key: quiz_key,
+                  class_key: class_key,
+                })
+              }
+            >
+              <Icon name="ios-camera" />
+              <Text>Scan Answer</Text>
+            </Button>
+          </Row>
         </Grid>
-       
 
         <Toast message={error} onDismiss={() => setError('')} />
       </Content>
@@ -78,5 +90,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 1,
     fontFamily: 'Comfortaa',
+  },
+  button: {
+    backgroundColor: theme.colors.opPrimary,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+    fontFamily: 'Comfortaa',
+    marginTop: 20,
   },
 })

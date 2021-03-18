@@ -13,7 +13,7 @@ const QuizIndex = ({ route, navigation }) => {
   const { img, setImg } = useContext(AppContext)
   const [error, setError] = useState()
   const { quiz, Class_key } = route.params
-  console.log('@@@',quiz)
+  //console.log('@@@', quiz)
   return (
     <Container style={styles.container}>
       <HeaderTop goBack={navigation.goBack} title="Quiz" />
@@ -46,7 +46,7 @@ const QuizIndex = ({ route, navigation }) => {
         </Row>
         <Row>
           <Col>
-            <View style={{padding:10}}>
+            <View style={{ padding: 10 }}>
               <Button
                 iconLeft
                 style={styles.button}
@@ -54,7 +54,7 @@ const QuizIndex = ({ route, navigation }) => {
                   navigation.navigate('CameraIndex', {
                     quiz_key: quiz.quiz_key,
                     class_key: Class_key,
-                    student_key:null
+                    student_key: null,
                   })
                 }
               >
@@ -64,7 +64,7 @@ const QuizIndex = ({ route, navigation }) => {
             </View>
           </Col>
           <Col>
-            <View style={{padding:10}}>
+            <View style={{ padding: 10 }}>
               <Button
                 iconLeft
                 style={styles.button}
@@ -78,6 +78,48 @@ const QuizIndex = ({ route, navigation }) => {
               >
                 <Icon name="ios-paper" />
                 <Text>Review</Text>
+              </Button>
+            </View>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <View style={{ padding: 10 }}>
+              <Button
+                iconLeft
+                style={[styles.button, { marginTop: 0 }]}
+                onPress={() =>
+                  navigation.navigate('AnswerScreen', {
+                    title:quiz.quiz_name,
+                    quiz_key: quiz.quiz_key,
+                    class_key: Class_key,
+                    
+                  })
+                }
+              >
+                <Icon
+                  name="ios-key"
+                  style={{
+                    transform: [{ rotate: '90deg' }],
+                  }}
+                />
+                <Text>Answer</Text>
+              </Button>
+            </View>
+          </Col>
+          <Col>
+            <View style={{ padding: 10 }}>
+              <Button
+                iconLeft
+                style={[styles.button, { marginTop: 0 }]}
+                onPress={() =>
+                  navigation.navigate('StatScreen', {
+                    title: 'Stat',
+                  })
+                }
+              >
+                <Icon name="ios-stats" />
+                <Text>Statistic</Text>
               </Button>
             </View>
           </Col>
@@ -132,6 +174,6 @@ const styles = StyleSheet.create({
     flex: 1,
     fontFamily: 'Comfortaa',
     marginTop: 400,
-    width:160
+    width: 160,
   },
 })

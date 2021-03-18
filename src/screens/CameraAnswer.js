@@ -16,7 +16,7 @@ import {
 import { theme } from '../core/theme'
 import axios from 'axios'
 
-const CameraIndex = ({ route, navigation }) => {
+const CameraAnswer = ({ route, navigation }) => {
   const camera = useRef(null)
   const { setImg, host, user,setToast } = useContext(AppContext)
   const { quiz_key, class_key,student_key } = route.params
@@ -40,71 +40,71 @@ const CameraIndex = ({ route, navigation }) => {
     req.append('uid', user.uid)
     req.append('class_key', class_key)
     req.append('quiz_key', quiz_key)
-    req.append('student_key', student_key)
-    const url = 'http://' + host + ':5000' + '/get_image'
-    axios
-      .post(url, req)
-      .then((res) => {
-        setProcess(false)
-        if (res.status === 200) {
-          console.log('@@', res.data)
-          const displayText = `Student ID: ${res.data.std_id}\n\nResult: ${
-            res.data.score
-          }/${res.data.total}   ${(
-            (Math.round(res.data.score) / res.data.total) *
-            100
-          ).toFixed(2)}%`
-          setImg(res.data.url)
-          setToast(displayText)
-          Toast.show({
-            text: displayText,
-            duration: 20000,
-            position: 'top',
-            onClose: OnClose,
-            buttonText: 'See result',
-            buttonStyle: {
-              backgroundColor: '#2c393fff',
-              left: 110,
-              marginTop: 20,
-            },
-            style: {
-              top: 400,
-              flexDirection: 'column',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            },
-            textStyle: {
-              textAlign: 'center',
-            },
-          })
-          //navigation.replace('ResultScreen')
-        } else if (res.status === 201) {
-          //console.log('@@@', res.data.message)
-          Toast.show({
-            text: `Error: ${res.data.message}\n\nplease try again.`,
-            duration: 3000,
-            position: 'top',
-            style: { top: 400 },
-            textStyle: {
-              textAlign: 'center',
-            },
-          })
-        }
-      })
-      .catch((error) => {
-        setProcess(false)
-        console.log('###', error.message)
-        Toast.show({
-          text: `Error: ${error.message}\n\nplease try again.`,
-          duration: 3000,
-          position: 'top',
-          style: { top: 400 },
-          textStyle: {
-            textAlign: 'center',
-          },
-        })
-      })
+    
+    const url = 'http://' + host + ':5000' + '/get_answer'
+    // axios
+    //   .post(url, req)
+    //   .then((res) => {
+    //     setProcess(false)
+    //     if (res.status === 200) {
+    //       console.log('@@', res.data)
+    //       const displayText = `Student ID: ${res.data.std_id}\n\nResult: ${
+    //         res.data.score
+    //       }/${res.data.total}   ${(
+    //         (Math.round(res.data.score) / res.data.total) *
+    //         100
+    //       ).toFixed(2)}%`
+    //       setImg(res.data.url)
+    //       setToast(displayText)
+    //       Toast.show({
+    //         text: displayText,
+    //         duration: 20000,
+    //         position: 'top',
+    //         onClose: OnClose,
+    //         buttonText: 'See result',
+    //         buttonStyle: {
+    //           backgroundColor: '#2c393fff',
+    //           left: 110,
+    //           marginTop: 20,
+    //         },
+    //         style: {
+    //           top: 400,
+    //           flexDirection: 'column',
+    //           display: 'flex',
+    //           justifyContent: 'center',
+    //           alignItems: 'center',
+    //         },
+    //         textStyle: {
+    //           textAlign: 'center',
+    //         },
+    //       })
+    //       //navigation.replace('ResultScreen')
+    //     } else if (res.status === 201) {
+    //       console.log('@@@', res.data.message)
+    //       Toast.show({
+    //         text: `Error: ${res.data.message}\n\nplease try again.`,
+    //         duration: 3000,
+    //         position: 'top',
+    //         style: { top: 400 },
+    //         textStyle: {
+    //           textAlign: 'center',
+    //         },
+    //       })
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     setProcess(false)
+    //     console.log('###', error.message)
+    //     Toast.show({
+    //       text: `Error: ${error.message}\n\nplease try again.`,
+    //       duration: 3000,
+    //       position: 'top',
+    //       style: { top: 400 },
+    //       textStyle: {
+    //         textAlign: 'center',
+    //       },
+    //     })
+    //   })
   }
   const takePicture = async () => {
     try {
@@ -227,7 +227,7 @@ const CameraIndex = ({ route, navigation }) => {
   )
 }
 
-export default CameraIndex
+export default CameraAnswer
 
 const styles = StyleSheet.create({
   container: {

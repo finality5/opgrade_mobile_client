@@ -19,7 +19,9 @@ import {
   ResultScreen,
   StatScreen,
   ReviewScreen,
-  StatusScreen
+  StatusScreen,
+  CameraAnswer,
+  AnswerScreen
 } from './src/screens'
 import { FIREBASE_CONFIG } from './src/core/config'
 import { AppProvider } from './src/context/context'
@@ -56,6 +58,8 @@ const App = () => {
               <Stack.Screen name="StatScreen" component={StatScreen} />
               <Stack.Screen name="ReviewScreen" component={ReviewScreen} />
               <Stack.Screen name="StatusScreen" component={StatusScreen} />
+              <Stack.Screen name="CameraAnswer" component={CameraAnswer} />
+              <Stack.Screen name="AnswerScreen" component={AnswerScreen} />
               <Stack.Screen
                 name="ForgotPasswordScreen"
                 component={ForgotPasswordScreen}

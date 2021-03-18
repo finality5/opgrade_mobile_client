@@ -19,15 +19,16 @@ import axios from 'axios'
 const CameraAnswer = ({ route, navigation }) => {
   const camera = useRef(null)
   const { setImg, host, user,setToast } = useContext(AppContext)
-  const { quiz_key, class_key } = route.params
+  const { quiz_key, class_key ,answer_name} = route.params
   const [onProcess, setProcess] = useState(false)
 
   //console.log(quiz_key, class_key)
-  useEffect(() => {
-    console.log('uid: ', user.uid)
-    console.log('quiz_key: ', quiz_key)
-    console.log('class_key: ',class_key)
-  }, [])
+  // useEffect(() => {
+  //   console.log('uid: ', user.uid)
+  //   console.log('quiz_key: ', quiz_key)
+  //   console.log('class_key: ', class_key)
+  //   console.log('answer_name: ',answer_name)
+  // }, [])
 
   const OnClose = (reason) => {
     if (reason === 'user') {
@@ -41,6 +42,7 @@ const CameraAnswer = ({ route, navigation }) => {
     req.append('uid', user.uid)
     req.append('class_key', class_key)
     req.append('quiz_key', quiz_key)
+    req.append('answer_name', answer_name)
     
     const url = 'http://' + host + ':5000' + '/get_answer'
     //axios.post(url, req).then(res => console.log(res.data)).catch(err => console.log(err.message))

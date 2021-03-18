@@ -1,18 +1,31 @@
 import React, { useState, useEffect, useContext } from 'react'
 
 import HeaderTop from '../components/HeaderTop'
-import Toast from '../components/Toast'
+//import Toast from '../components/Toast'
 
 import axios from 'axios'
 import { AppContext } from '../context/context'
-import { Container, Content, Text, View, Icon, Button } from 'native-base'
+import {
+  Container,
+  Content,
+  Text,
+  View,
+  Icon,
+  Button,
+  Form,
+  Item,
+  Input,
+  Label,
+  Toast
+} from 'native-base'
 import { StyleSheet } from 'react-native'
 import { theme } from '../core/theme'
 import { Col, Row, Grid } from 'react-native-easy-grid'
 const AnswerScreen = ({ route, navigation }) => {
   const [error, setError] = useState()
-  const { title, quiz_key, class_key } = route.params
-  //console.log('###', quiz_key, class_key)
+  const [text, onChangeText] = useState("")
+  const { title, quiz_key, class_key, answer } = route.params
+  //console.log('###', text)
   return (
     <Container style={styles.container}>
       <HeaderTop goBack={navigation.goBack} title={title} />
@@ -32,15 +45,39 @@ const AnswerScreen = ({ route, navigation }) => {
               </View>
             </Col>
           </Row>
+          <Text style={styles.header}>Add Answer Sheet</Text>
+          <View style={styles.divider}></View>
+          <Row>
+            <Form style={{ width: '100%' }}>
+              <Item floatingLabel>
+                <Label>Answer Name</Label>
+                <Input onChangeText={onChangeText} value={text} />
+              </Item>
+            </Form>
+          </Row>
           <Row>
             <Button
               iconLeft
               style={styles.button}
               onPress={() =>
-                navigation.navigate('CameraAnswer', {
-                  quiz_key: quiz_key,
-                  class_key: class_key,
-                })
+              {
+                if (text !== "") {
+                  navigation.navigate('CameraAnswer', {
+                    quiz_key: quiz_key,
+                    class_key: class_key,
+                    answer_name: text
+                  })
+                } else {
+                  Toast.show({
+                    text: `Answer sheet name is required`,
+                    duration: 3000,
+                    position: 'top',
+                    style: { top: 300 },
+                    textStyle: {
+                      textAlign: 'center',
+                    },
+                  })
+                }}
               }
             >
               <Icon name="ios-camera" />
@@ -49,7 +86,7 @@ const AnswerScreen = ({ route, navigation }) => {
           </Row>
         </Grid>
 
-        <Toast message={error} onDismiss={() => setError('')} />
+        
       </Content>
     </Container>
   )

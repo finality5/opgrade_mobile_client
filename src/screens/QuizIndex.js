@@ -4,20 +4,36 @@ import HeaderTop from '../components/HeaderTop'
 import Toast from '../components/Toast'
 import axios from 'axios'
 import { AppContext } from '../context/context'
-import { Container, Content, Text, View, Button, Icon } from 'native-base'
+import { Container, Content, Text, View, Button, Icon,Spinner } from 'native-base'
 import { StyleSheet, Image } from 'react-native'
 import { theme } from '../core/theme'
 import { Col, Row } from 'react-native-easy-grid'
 
 const QuizIndex = ({ route, navigation }) => {
-  const { img, setImg } = useContext(AppContext)
-  const [error, setError] = useState()
+  const { img, setImg,user,host } = useContext(AppContext)
   const { quiz, Class_key } = route.params
-  console.log('@@@', quiz)
+  const [error, setError] = useState()
+  const [isFetch, setFetch] = useState(false)
+  const [data, setData] = useState("")
+  
+  
+  
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      setFetch(true)
+      const url = `http://${host}:5000/getquizeach?uid=${user.uid}&class_key=${Class_key}&quiz_key=${quiz.quiz_key}`
+      axios.get(url).then((res) => {
+        setData(res.data.quiz_data)
+        setFetch(false)
+        //console.log('$$$', res.data.quiz_data)
+      })
+    })
+  }, [])
+  //console.log('@@@', data)
   return (
     <Container style={styles.container}>
       <HeaderTop goBack={navigation.goBack} title="Quiz" />
-      <Content padder>
+      {!isFetch && data!=="" ?<Content padder>
         <Text style={styles.header}>{quiz.quiz_name}</Text>
         <View style={styles.divider}></View>
         <Row>
@@ -91,9 +107,9 @@ const QuizIndex = ({ route, navigation }) => {
                 onPress={() =>
                   navigation.navigate('AnswerScreen', {
                     title:quiz.quiz_name,
-                    quiz_key: quiz.quiz_key,
+                    quiz_key: data.quiz_key,
                     class_key: Class_key,
-                    
+                    answer:data.answer
                   })
                 }
               >
@@ -126,7 +142,7 @@ const QuizIndex = ({ route, navigation }) => {
         </Row>
 
         <Toast message={error} onDismiss={() => setError('')} />
-      </Content>
+      </Content>:<Spinner style={{ top: 300 }} color={theme.colors.opAlter} />}
     </Container>
   )
 }

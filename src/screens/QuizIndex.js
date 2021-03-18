@@ -1,23 +1,49 @@
 import React, { useState, useEffect, useContext } from 'react'
 //import Button from '../components/Button'
 import HeaderTop from '../components/HeaderTop'
-import Toast from '../components/Toast'
+//import Toast from '../components/Toast'
 import axios from 'axios'
 import { AppContext } from '../context/context'
-import { Container, Content, Text, View, Button, Icon,Spinner } from 'native-base'
+import {
+  Container,
+  Content,
+  Text,
+  View,
+  Button,
+  Icon,
+  Spinner,
+  Toast,
+} from 'native-base'
 import { StyleSheet, Image } from 'react-native'
 import { theme } from '../core/theme'
 import { Col, Row } from 'react-native-easy-grid'
 
+const answerParse = (arr) => {
+  let tmp = {}
+  for (let i = 0; i < arr.length; i++) {
+    tmp[i] = arr[i]
+  }
+  return tmp
+}
+const quizType = (type) => {
+  switch (type) {
+    case "0":
+      return "50 questions";
+    case "1":
+      return "40 questions";
+    default:
+      return;
+  }
+};
+
 const QuizIndex = ({ route, navigation }) => {
-  const { img, setImg,user,host } = useContext(AppContext)
+  const { user, host,setAnswer } = useContext(AppContext)
   const { quiz, Class_key } = route.params
   const [error, setError] = useState()
   const [isFetch, setFetch] = useState(false)
-  const [data, setData] = useState("")
+  const [data, setData] = useState('')
   
-  
-  
+
   useEffect(() => {
     navigation.addListener('focus', () => {
       setFetch(true)
@@ -29,120 +55,173 @@ const QuizIndex = ({ route, navigation }) => {
       })
     })
   }, [])
-  //console.log('@@@', data)
+  console.log('@@@', data)
+
+  useEffect(() => {
+    if (data) {
+      if (data.answer !== '' && data.default !== '')
+        setAnswer(answerParse(data.answer[[data.default]].quiz_answer))
+    }
+  }, [data])
+
   return (
     <Container style={styles.container}>
       <HeaderTop goBack={navigation.goBack} title="Quiz" />
-      {!isFetch && data!=="" ?<Content padder>
-        <Text style={styles.header}>{quiz.quiz_name}</Text>
-        <View style={styles.divider}></View>
-        <Row>
-          <Col size={1}>
-            <View style={styles.quiz}>
-              <Text>Form</Text>
-            </View>
-          </Col>
-          <Col size={2}>
-            <View style={styles.quiz}>
-              <Text>40 Question</Text>
-            </View>
-          </Col>
-        </Row>
-        <Row>
-          <Col size={1}>
-            <View style={styles.quiz}>
-              <Text>Created</Text>
-            </View>
-          </Col>
-          <Col size={2}>
-            <View style={styles.quiz}>
-              <Text>{quiz.date}</Text>
-            </View>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <View style={{ padding: 10 }}>
-              <Button
-                iconLeft
-                style={styles.button}
-                onPress={() =>
-                  navigation.navigate('CameraIndex', {
-                    quiz_key: quiz.quiz_key,
-                    class_key: Class_key,
-                    student_key: null,
-                  })
-                }
-              >
-                <Icon name="ios-camera" />
-                <Text>Scan Exam</Text>
-              </Button>
-            </View>
-          </Col>
-          <Col>
-            <View style={{ padding: 10 }}>
-              <Button
-                iconLeft
-                style={styles.button}
-                onPress={() =>
-                  navigation.navigate('ReviewScreen', {
-                    title: 'Review',
-                    quiz: quiz,
-                    class_key: Class_key,
-                  })
-                }
-              >
-                <Icon name="ios-paper" />
-                <Text>Review</Text>
-              </Button>
-            </View>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <View style={{ padding: 10 }}>
-              <Button
-                iconLeft
-                style={[styles.button, { marginTop: 0 }]}
-                onPress={() =>
-                  navigation.navigate('AnswerScreen', {
-                    title:quiz.quiz_name,
-                    quiz_key: data.quiz_key,
-                    class_key: Class_key,
-                    answer:data.answer
-                  })
-                }
-              >
-                <Icon
-                  name="ios-key"
-                  style={{
-                    transform: [{ rotate: '90deg' }],
-                  }}
-                />
+      {!isFetch && data !== '' ? (
+        <Content padder>
+          <Text style={styles.header}>{data.quiz_name}</Text>
+          <View style={styles.divider}></View>
+          <Row>
+            <Col size={1}>
+              <View style={styles.quiz}>
+                <Text>Form</Text>
+              </View>
+            </Col>
+            <Col size={2}>
+              <View style={styles.quiz}>
+                <Text>{ quizType(data.quiz_type)}</Text>
+              </View>
+            </Col>
+          </Row>
+          <Row>
+            <Col size={1}>
+              <View style={styles.quiz}>
+                <Text>Created</Text>
+              </View>
+            </Col>
+            <Col size={2}>
+              <View style={styles.quiz}>
+                <Text>{data.date}</Text>
+              </View>
+            </Col>
+          </Row>
+          <Row>
+            <Col size={1}>
+              <View style={styles.quiz}>
                 <Text>Answer</Text>
-              </Button>
-            </View>
-          </Col>
-          <Col>
-            <View style={{ padding: 10 }}>
-              <Button
-                iconLeft
-                style={[styles.button, { marginTop: 0 }]}
-                onPress={() =>
-                  navigation.navigate('StatScreen', {
-                    title: 'Stat',
-                  })
-                }
-              >
-                <Icon name="ios-stats" />
-                <Text>Statistic</Text>
-              </Button>
-            </View>
-          </Col>
-        </Row>
+              </View>
+            </Col>
+            <Col size={2}>
+              <View style={styles.quiz}>
+                <Text>
+                  {data.answer !== '' && data.default !== ''
+                    ? data.answer[[data.default]].answer_name
+                    : 'NO ANSWER'}
+                </Text>
+              </View>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <View style={{ padding: 10 }}>
+                <Button
+                  iconLeft
+                  style={styles.button}
+                  onPress={() => {
+                    if (data.answer !== '' && data.default !== '') {
+                      navigation.navigate('CameraIndex', {
+                        quiz_key: data.quiz_key,
+                        class_key: Class_key,
+                        student_key: null,
+                      })
+                    } else {
+                      Toast.show({
+                        text: `Please select answer or add answer`,
+                        duration: 3000,
+                        position: 'top',
+                        style: { top: 300 },
+                        textStyle: {
+                          textAlign: 'center',
+                        },
+                      })
+                    }
+                  }}
+                >
+                  <Icon name="ios-camera" />
+                  <Text>Scan Exam</Text>
+                </Button>
+              </View>
+            </Col>
+            <Col>
+              <View style={{ padding: 10 }}>
+                <Button
+                  iconLeft
+                  style={styles.button}
+                  onPress={() => {
+                    if (data.answer !== '' && data.default !== '') {
+                      navigation.navigate('ReviewScreen', {
+                        title: 'Review',
+                        quiz: data,
+                        class_key: Class_key,
+                      })
+                      //console.log(data.answer !== '' && data.default !== '')
+                    } else {
+                      Toast.show({
+                        text: `Please select answer or add answer`,
+                        duration: 3000,
+                        position: 'top',
+                        style: { top: 300 },
+                        textStyle: {
+                          textAlign: 'center',
+                        },
+                      })
+                    }
+                  }}
+                >
+                  <Icon name="ios-paper" />
+                  <Text>Review</Text>
+                </Button>
+              </View>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <View style={{ padding: 10 }}>
+                <Button
+                  iconLeft
+                  style={[styles.button, { marginTop: 0 }]}
+                  onPress={() =>
+                    navigation.navigate('AnswerScreen', {
+                      title: data.quiz_name,
+                      quiz_key: data.quiz_key,
+                      class_key: Class_key,
+                      answer: data.answer,
+                    })
+                  }
+                >
+                  <Icon
+                    name="ios-key"
+                    style={{
+                      transform: [{ rotate: '90deg' }],
+                    }}
+                  />
+                  <Text>Answer</Text>
+                </Button>
+              </View>
+            </Col>
+            <Col>
+              <View style={{ padding: 10 }}>
+                <Button
+                  iconLeft
+                  style={[styles.button, { marginTop: 0 }]}
+                  onPress={() =>
+                    navigation.navigate('StatScreen', {
+                      title: 'Stat',
+                    })
+                  }
+                >
+                  <Icon name="ios-stats" />
+                  <Text>Statistic</Text>
+                </Button>
+              </View>
+            </Col>
+          </Row>
 
-        <Toast message={error} onDismiss={() => setError('')} />
-      </Content>:<Spinner style={{ top: 300 }} color={theme.colors.opAlter} />}
+          <Toast message={error} onDismiss={() => setError('')} />
+        </Content>
+      ) : (
+        <Spinner style={{ top: 300 }} color={theme.colors.opAlter} />
+      )}
     </Container>
   )
 }
@@ -189,7 +268,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     fontFamily: 'Comfortaa',
-    marginTop: 400,
+    marginTop: 300,
     width: 160,
   },
 })

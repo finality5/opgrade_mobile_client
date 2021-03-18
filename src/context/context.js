@@ -7,6 +7,7 @@ export const AppProvider = ({ children }) => {
   const [img, setImg] = useState()
   const [host, setHost] = useState()
   const [toastText, setToast] = useState()
+  const [answer, setAnswer] = useState()
   return (
     <AppContext.Provider
       value={{
@@ -17,7 +18,9 @@ export const AppProvider = ({ children }) => {
         host,
         setHost,
         toastText,
-        setToast
+        setToast,
+        answer,
+        setAnswer,
       }}
     >
       {children}

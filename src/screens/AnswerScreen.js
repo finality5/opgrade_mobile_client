@@ -22,6 +22,7 @@ import { StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { theme } from '../core/theme'
 import { Col, Row, Grid } from 'react-native-easy-grid'
 const AnswerScreen = ({ route, navigation }) => {
+  const { user, host } = useContext(AppContext)
   const [error, setError] = useState()
   const [text, onChangeText] = useState('')
   const { title, quiz_key, class_key, answer } = route.params
@@ -49,8 +50,64 @@ const AnswerScreen = ({ route, navigation }) => {
   }, [])
 
   // console.log('###', data)
+
+  const OnClose = (reason) => {
+    if (reason === 'timeout') {
+      navigation.navigate('QuizIndex')
+    }
+  }
+
   const setDefault = () => {
-    console.log(selectAnswer)
+    const url = `http://${host}:5000/defaultanswer`
+    Toast.show({
+      text: 'Processing...',
+      duration: 10000,
+      position: 'top',
+      onClose: OnClose,
+      style: {
+        top: 400,
+      },
+      textStyle: {
+        textAlign: 'center',
+      },
+    })
+    axios
+      .post(url, {
+        uid: user.uid,
+        class_key: class_key,
+        quiz_key:quiz_key,
+        answer_key: selectAnswer,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          Toast.show({
+            text: res.data.message,
+            duration: 500,
+            position: 'top',
+            onClose: OnClose,
+            style: {
+              top: 400,
+            },
+            textStyle: {
+              textAlign: 'center',
+            },
+          })
+          console.log(res.data)
+        } else {
+          Toast.show({
+            text: res.data.message,
+            duration: 10000,
+            position: 'top',
+            onClose: OnClose,
+            style: {
+              top: 400,
+            },
+            textStyle: {
+              textAlign: 'center',
+            },
+          })
+        }
+      })
   }
 
   return (

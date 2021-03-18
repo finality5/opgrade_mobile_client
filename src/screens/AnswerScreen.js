@@ -18,7 +18,7 @@ import {
   Label,
   Toast,
 } from 'native-base'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { theme } from '../core/theme'
 import { Col, Row, Grid } from 'react-native-easy-grid'
 const AnswerScreen = ({ route, navigation }) => {
@@ -26,49 +26,129 @@ const AnswerScreen = ({ route, navigation }) => {
   const [text, onChangeText] = useState('')
   const { title, quiz_key, class_key, answer } = route.params
   const [data, setData] = useState([])
+  const [selectAnswer, setAnswer] = useState()
 
   useEffect(() => {
     if (answer) {
+      let answerArr = []
       Object.entries(answer).forEach(([key, value]) => {
         let tmp = {}
         for (let i = 0; i < value.quiz_answer.length; i++) {
           tmp[i] = value.quiz_answer[i]
         }
-        setData((prev) => [
-          ...prev,
-          {
-            answer_key: key,
-            answer_url: value.answer_url,
-            answer_name: value.answer_name,
-            answer_quiz: tmp,
-          },
-        ])
+        answerArr.push({
+          answer_key: key,
+          answer_url: value.answer_url,
+          answer_name: value.answer_name,
+          answer_quiz: tmp,
+        })
       })
+      setData(answerArr)
       //console.log(answer)
     }
   }, [])
 
-  console.log('###', data)
+  // console.log('###', data)
+  const setDefault = () => {
+    console.log(selectAnswer)
+  }
 
   return (
     <Container style={styles.container}>
       <HeaderTop goBack={navigation.goBack} title={title} />
       <Content padder>
-        <Text style={styles.header}>Answer Sheet</Text>
+        <Grid>
+          <Col size={2}>
+            <Text style={styles.header}>Answer Sheet</Text>
+          </Col>
+          <Col size={1}>
+            {selectAnswer ? (
+              <Button style={styles.submit} onPress={setDefault}>
+                <Text style={{ fontSize: 10, fontWeight: 'bold' }}>
+                  Set Answer
+                </Text>
+              </Button>
+            ) : null}
+          </Col>
+        </Grid>
         <View style={styles.divider}></View>
         <Grid>
-          <Row>
-            <Col size={1}>
-              <View style={styles.quiz}>
-                <Text>STATISTIC</Text>
-              </View>
-            </Col>
-            <Col size={2}>
-              <View style={styles.quiz}>
-                <Text>TEST</Text>
-              </View>
-            </Col>
-          </Row>
+          {data
+            ? data.map((obj) => (
+                <TouchableOpacity
+                  style={{ marginTop: 20, padding: 5 }}
+                  onPress={() => setAnswer(obj.answer_key)}
+                  key={obj.answer_key}
+                >
+                  <Row>
+                    <Col size={1}>
+                      <View
+                        style={[
+                          styles.quiz,
+                          {
+                            backgroundColor:
+                              obj.answer_key === selectAnswer
+                                ? theme.colors.opPrimary
+                                : '#EDEDED',
+                          },
+                        ]}
+                      >
+                        <Text
+                          style={{
+                            color:
+                              obj.answer_key === selectAnswer
+                                ? 'white'
+                                : 'black',
+                          }}
+                        >
+                          Date
+                        </Text>
+                      </View>
+                    </Col>
+                    <Col size={2}>
+                      <View
+                        style={[
+                          styles.quiz,
+                          {
+                            backgroundColor:
+                              obj.answer_key === selectAnswer
+                                ? theme.colors.opPrimary
+                                : '#EDEDED',
+                          },
+                        ]}
+                      >
+                        <Text
+                          style={{
+                            color:
+                              obj.answer_key === selectAnswer
+                                ? 'white'
+                                : 'black',
+                          }}
+                        >
+                          {obj.answer_name}
+                        </Text>
+                      </View>
+                    </Col>
+                  </Row>
+
+                  <Row style={{ display: 'flex', justifyContent: 'center' }}>
+                    <Image
+                      source={{ uri: obj.answer_url }}
+                      style={[
+                        styles.image,
+                        obj.answer_key === selectAnswer
+                          ? {
+                              borderColor: theme.colors.opPrimary,
+                              borderWidth: 5,
+                              borderRadius: 10,
+                            }
+                          : null,
+                      ]}
+                    />
+                  </Row>
+                </TouchableOpacity>
+              ))
+            : null}
           <Text style={styles.header}>Add Answer Sheet</Text>
           <View style={styles.divider}></View>
           <Row>
@@ -140,7 +220,6 @@ const styles = StyleSheet.create({
   quiz: {
     width: '90%',
     height: 37,
-    backgroundColor: '#EDEDED',
     borderRadius: 10,
     marginTop: 5,
     paddingLeft: 15,
@@ -148,6 +227,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 1,
     fontFamily: 'Comfortaa',
+    backgroundColor: '#EDEDED',
   },
   button: {
     backgroundColor: theme.colors.opPrimary,
@@ -156,5 +236,24 @@ const styles = StyleSheet.create({
     flex: 1,
     fontFamily: 'Comfortaa',
     marginTop: 20,
+  },
+  image: {
+    width: 300,
+    height: 400,
+    borderRadius: 10,
+    overflow: 'hidden',
+    marginTop: 20,
+    flex: 0,
+    marginBottom: 20,
+  },
+  submit: {
+    backgroundColor: theme.colors.opSecondary,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+    fontFamily: 'Comfortaa',
+    marginTop: 30,
+    height: 10,
+    width: 100,
   },
 })

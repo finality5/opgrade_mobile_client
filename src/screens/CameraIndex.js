@@ -41,7 +41,9 @@ const CameraIndex = ({ route, navigation }) => {
     req.append('class_key', class_key)
     req.append('quiz_key', quiz_key)
     req.append('student_key', student_key)
-    req.append('answer', JSON.stringify(answer))
+    req.append('answer_key', answer.answer_key)
+    req.append('answer_name', answer.answer_name)
+    req.append('answer', JSON.stringify(answer.quiz_answer))
     console.log(answer)
     const url = 'http://' + host + ':5000' + '/get_image'
     axios

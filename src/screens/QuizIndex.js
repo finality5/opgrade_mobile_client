@@ -27,22 +27,21 @@ const answerParse = (arr) => {
 }
 const quizType = (type) => {
   switch (type) {
-    case "0":
-      return "50 questions";
-    case "1":
-      return "40 questions";
+    case '0':
+      return '50 questions'
+    case '1':
+      return '40 questions'
     default:
-      return;
+      return
   }
-};
+}
 
 const QuizIndex = ({ route, navigation }) => {
-  const { user, host,setAnswer } = useContext(AppContext)
+  const { user, host, setAnswer } = useContext(AppContext)
   const { quiz, Class_key } = route.params
   const [error, setError] = useState()
   const [isFetch, setFetch] = useState(false)
   const [data, setData] = useState('')
-  
 
   useEffect(() => {
     navigation.addListener('focus', () => {
@@ -55,12 +54,17 @@ const QuizIndex = ({ route, navigation }) => {
       })
     })
   }, [])
-  console.log('@@@', data)
+  //console.log('@@@', data)
 
   useEffect(() => {
     if (data) {
       if (data.answer !== '' && data.default !== '')
-        setAnswer(answerParse(data.answer[[data.default]].quiz_answer))
+        setAnswer({
+          answer_key: data.default,
+          answer_name: data.answer[[data.default]].answer_name,
+          quiz_answer: answerParse(data.answer[[data.default]].quiz_answer),
+        })
+      //setAnswer(answerParse(data.answer[[data.default]].quiz_answer))
     }
   }, [data])
 
@@ -79,7 +83,7 @@ const QuizIndex = ({ route, navigation }) => {
             </Col>
             <Col size={2}>
               <View style={styles.quiz}>
-                <Text>{ quizType(data.quiz_type)}</Text>
+                <Text>{quizType(data.quiz_type)}</Text>
               </View>
             </Col>
           </Row>

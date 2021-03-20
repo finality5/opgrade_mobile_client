@@ -26,7 +26,7 @@ const StatusScreen = ({ route, navigation }) => {
   const { title, quiz, class_key, student, status } = route.params
   const [isFetch, setFetch] = useState(false)
   const [selectScore, setScore] = useState()
-
+  //console.log(student)
   const OnClose = (reason) => {
     if (reason === 'timeout') {
       navigation.navigate('ReviewScreen')
@@ -107,6 +107,18 @@ const StatusScreen = ({ route, navigation }) => {
               <Row>
                 <Col size={1}>
                   <View style={styles.quiz}>
+                    <Text>Key</Text>
+                  </View>
+                </Col>
+                <Col size={2}>
+                  <View style={styles.quiz}>
+                    <Text>{student.quiz[0].answer_name}</Text>
+                  </View>
+                </Col>
+              </Row>
+              <Row>
+                <Col size={1}>
+                  <View style={styles.quiz}>
                     <Text>Date</Text>
                   </View>
                 </Col>
@@ -124,7 +136,7 @@ const StatusScreen = ({ route, navigation }) => {
                 </Col>
                 <Col size={2}>
                   <View style={styles.quiz}>
-                    <Text>{student.quiz[0].result}</Text>
+                    <Text>{`${student.quiz[0].result} / ${student.quiz[0].total}`}</Text>
                   </View>
                 </Col>
               </Row>

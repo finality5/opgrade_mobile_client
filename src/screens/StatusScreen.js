@@ -163,6 +163,7 @@ const StatusScreen = ({ route, navigation }) => {
                   quiz_key: quiz.quiz_key,
                   class_key: class_key,
                   student_key: student.student_key,
+                  quiz_type:quiz.quiz_type
                 })
               }
             >

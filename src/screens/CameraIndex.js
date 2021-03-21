@@ -19,7 +19,7 @@ import axios from 'axios'
 const CameraIndex = ({ route, navigation }) => {
   const camera = useRef(null)
   const { setImg, host, user, setToast, answer } = useContext(AppContext)
-  const { quiz_key, class_key, student_key } = route.params
+  const { quiz_key, class_key, student_key,quiz_type } = route.params
   const [onProcess, setProcess] = useState(false)
 
   // useEffect(() => {
@@ -33,7 +33,7 @@ const CameraIndex = ({ route, navigation }) => {
       navigation.navigate('ResultScreen')
     }
   }
-
+  //console.log(quiz_type)
   const sendImage = (image_data) => {
     let req = new FormData()
     req.append('image', image_data.base64)
@@ -41,8 +41,15 @@ const CameraIndex = ({ route, navigation }) => {
     req.append('class_key', class_key)
     req.append('quiz_key', quiz_key)
     req.append('student_key', student_key)
-    req.append('answer_key', answer.answer_key)
-    req.append('answer_name', answer.answer_name)
+    req.append('quiz_type', quiz_type)
+    if (quiz_type === '0') {
+      req.append('answer_key', answer.answer_key)
+      req.append('answer_name', answer.answer_name)
+    }
+    if (quiz_type === '1') {
+      req.append('answer_key', JSON.stringify(answer.answer_key))
+      req.append('answer_name', JSON.stringify(answer.answer_name))
+    }
     req.append('answer', JSON.stringify(answer.quiz_answer))
     console.log(answer)
     const url = 'http://' + host + ':5000' + '/get_image'

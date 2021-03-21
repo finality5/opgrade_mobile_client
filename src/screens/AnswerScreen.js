@@ -25,10 +25,10 @@ const AnswerScreen = ({ route, navigation }) => {
   const { user, host } = useContext(AppContext)
   const [error, setError] = useState()
   const [text, onChangeText] = useState('')
-  const { title, quiz_key, class_key, answer } = route.params
+  const { title, quiz_key, class_key, answer, quiz_type } = route.params
   const [data, setData] = useState([])
   const [selectAnswer, setAnswer] = useState()
-
+  const [open, setOpen] = useState([])
   useEffect(() => {
     if (answer) {
       let answerArr = []
@@ -49,7 +49,22 @@ const AnswerScreen = ({ route, navigation }) => {
     }
   }, [])
 
-  // console.log('###', data)
+  useEffect(() => {
+    if (data) {
+      setOpen([...data.map((obj) => ({ key: obj.answer_key, open: false }))])
+    }
+  }, [data])
+
+  //console.log('###', open)
+
+  const handleOpen = (id) => {
+    //console.log(id);
+    setOpen([
+      ...open.map((obj) =>
+        obj.key === id ? { ...obj, open: !obj.open } : obj
+      ),
+    ])
+  }
 
   const OnClose = (reason) => {
     if (reason === 'timeout') {
@@ -75,7 +90,7 @@ const AnswerScreen = ({ route, navigation }) => {
       .post(url, {
         uid: user.uid,
         class_key: class_key,
-        quiz_key:quiz_key,
+        quiz_key: quiz_key,
         answer_key: selectAnswer,
       })
       .then((res) => {
@@ -109,142 +124,372 @@ const AnswerScreen = ({ route, navigation }) => {
         }
       })
   }
+//console.log('#',selectAnswer)
+
+  const handleSelect = () => {
+    
+    let erwjhioghwertiouw4h5t3 = [];
+    open.forEach(obj => {
+      if (obj.open) {
+        erwjhioghwertiouw4h5t3.push(obj.key)
+      }
+    })
+
+    if (erwjhioghwertiouw4h5t3.length !== 3) {
+      Toast.show({
+        text: 'Select 3 answer only ',
+        duration: 2000,
+        position: 'top',
+        onClose: OnClose,
+        style: {
+          top: 400,
+        },
+        textStyle: {
+          textAlign: 'center',
+        },
+      })
+      return
+    }
+    
+    const url = `http://${host}:5000/defaultanswer`
+    Toast.show({
+      text: 'Processing...',
+      duration: 10000,
+      position: 'top',
+      onClose: OnClose,
+      style: {
+        top: 400,
+      },
+      textStyle: {
+        textAlign: 'center',
+      },
+    })
+    axios
+      .post(url, {
+        uid: user.uid,
+        class_key: class_key,
+        quiz_key: quiz_key,
+        answer_key: erwjhioghwertiouw4h5t3,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          Toast.show({
+            text: res.data.message,
+            duration: 500,
+            position: 'top',
+            onClose: OnClose,
+            style: {
+              top: 400,
+            },
+            textStyle: {
+              textAlign: 'center',
+            },
+          })
+          //console.log(res.data)
+        } else {
+          Toast.show({
+            text: res.data.message,
+            duration: 10000,
+            position: 'top',
+            onClose: OnClose,
+            style: {
+              top: 400,
+            },
+            textStyle: {
+              textAlign: 'center',
+            },
+          })
+        }
+      })
+    
+
+  }
 
   return (
     <Container style={styles.container}>
       <HeaderTop goBack={navigation.goBack} title={title} />
       <Content padder>
-        <Grid>
-          <Col size={2}>
-            <Text style={styles.header}>Answer Sheet</Text>
-          </Col>
-          <Col size={1}>
-            {selectAnswer ? (
-              <Button style={styles.submit} onPress={setDefault}>
-                <Text style={{ fontSize: 10, fontWeight: 'bold' }}>
-                  Set Answer
-                </Text>
-              </Button>
-            ) : null}
-          </Col>
-        </Grid>
-        <View style={styles.divider}></View>
-        <Grid>
-          {data
-            ? data.map((obj) => (
-                <TouchableOpacity
-                  style={{ marginTop: 20, padding: 5 }}
-                  onPress={() => setAnswer(obj.answer_key)}
-                  key={obj.answer_key}
-                >
-                  <Row>
-                    <Col size={1}>
-                      <View
-                        style={[
-                          styles.quiz,
-                          {
-                            backgroundColor:
-                              obj.answer_key === selectAnswer
-                                ? theme.colors.opPrimary
-                                : '#EDEDED',
-                          },
-                        ]}
-                      >
-                        <Text
-                          style={{
-                            color:
-                              obj.answer_key === selectAnswer
-                                ? 'white'
-                                : 'black',
-                          }}
-                        >
-                          Date
-                        </Text>
-                      </View>
-                    </Col>
-                    <Col size={2}>
-                      <View
-                        style={[
-                          styles.quiz,
-                          {
-                            backgroundColor:
-                              obj.answer_key === selectAnswer
-                                ? theme.colors.opPrimary
-                                : '#EDEDED',
-                          },
-                        ]}
-                      >
-                        <Text
-                          style={{
-                            color:
-                              obj.answer_key === selectAnswer
-                                ? 'white'
-                                : 'black',
-                          }}
-                        >
-                          {obj.answer_name}
-                        </Text>
-                      </View>
-                    </Col>
-                  </Row>
+        {quiz_type === '0' ? (
+          <React.Fragment>
+            <Grid>
+              <Col size={2}>
+                <Text style={styles.header}>Answer Sheet</Text>
+              </Col>
+              <Col size={1}>
+                {selectAnswer ? (
+                  <Button style={styles.submit} onPress={setDefault}>
+                    <Text style={{ fontSize: 10, fontWeight: 'bold' }}>
+                      Set Answer
+                    </Text>
+                  </Button>
+                ) : null}
+              </Col>
+            </Grid>
+            <View style={styles.divider}></View>
+            <Grid>
+              {data
+                ? data.map((obj) => (
+                    <TouchableOpacity
+                      style={{ marginTop: 20, padding: 5 }}
+                      onPress={() => setAnswer(obj.answer_key)}
+                      key={obj.answer_key}
+                    >
+                      <Row>
+                        <Col size={1}>
+                          <View
+                            style={[
+                              styles.quiz,
+                              {
+                                backgroundColor:
+                                  obj.answer_key === selectAnswer
+                                    ? theme.colors.opPrimary
+                                    : '#EDEDED',
+                              },
+                            ]}
+                          >
+                            <Text
+                              style={{
+                                color:
+                                  obj.answer_key === selectAnswer
+                                    ? 'white'
+                                    : 'black',
+                              }}
+                            >
+                              Key
+                            </Text>
+                          </View>
+                        </Col>
+                        <Col size={2}>
+                          <View
+                            style={[
+                              styles.quiz,
+                              {
+                                backgroundColor:
+                                  obj.answer_key === selectAnswer
+                                    ? theme.colors.opPrimary
+                                    : '#EDEDED',
+                              },
+                            ]}
+                          >
+                            <Text
+                              style={{
+                                color:
+                                  obj.answer_key === selectAnswer
+                                    ? 'white'
+                                    : 'black',
+                              }}
+                            >
+                              {obj.answer_name}
+                            </Text>
+                          </View>
+                        </Col>
+                      </Row>
 
-                  <Row style={{ display: 'flex', justifyContent: 'center' }}>
-                    <Image
-                      source={{ uri: obj.answer_url }}
-                      style={[
-                        styles.image,
-                        obj.answer_key === selectAnswer
-                          ? {
-                              borderColor: theme.colors.opPrimary,
-                              borderWidth: 5,
-                              borderRadius: 10,
-                            }
-                          : null,
-                      ]}
-                    />
-                  </Row>
-                </TouchableOpacity>
-              ))
-            : null}
-          <Text style={styles.header}>Add Answer Sheet</Text>
-          <View style={styles.divider}></View>
-          <Row>
-            <Form style={{ width: '100%' }}>
-              <Item floatingLabel>
-                <Label>Answer Name</Label>
-                <Input onChangeText={onChangeText} value={text} />
-              </Item>
-            </Form>
-          </Row>
-          <Row>
-            <Button
-              iconLeft
-              style={styles.button}
-              onPress={() => {
-                if (text !== '') {
-                  navigation.navigate('CameraAnswer', {
-                    quiz_key: quiz_key,
-                    class_key: class_key,
-                    answer_name: text,
-                  })
-                } else {
-                  Toast.show({
-                    text: `Answer sheet name is required`,
-                    duration: 3000,
-                    position: 'top',
-                    style: { top: 300 },
-                    textStyle: {
-                      textAlign: 'center',
-                    },
-                  })
-                }
-              }}
-            >
-              <Icon name="ios-camera" />
-              <Text>Scan Answer</Text>
-            </Button>
-          </Row>
-        </Grid>
+                      <Row
+                        style={{ display: 'flex', justifyContent: 'center' }}
+                      >
+                        <Image
+                          source={{ uri: obj.answer_url }}
+                          style={[
+                            styles.image,
+                            obj.answer_key === selectAnswer
+                              ? {
+                                  borderColor: theme.colors.opPrimary,
+                                  borderWidth: 5,
+                                  borderRadius: 10,
+                                }
+                              : null,
+                          ]}
+                        />
+                      </Row>
+                    </TouchableOpacity>
+                  ))
+                : null}
+
+              <Text style={styles.header}>Add Answer Sheet</Text>
+              <View style={styles.divider}></View>
+              <Row>
+                <Form style={{ width: '100%' }}>
+                  <Item floatingLabel>
+                    <Label>Answer Name</Label>
+                    <Input onChangeText={onChangeText} value={text} />
+                  </Item>
+                </Form>
+              </Row>
+              <Row>
+                <Button
+                  iconLeft
+                  style={styles.button}
+                  onPress={() => {
+                    if (text !== '') {
+                      navigation.navigate('CameraAnswer', {
+                        quiz_key: quiz_key,
+                        class_key: class_key,
+                        answer_name: text,
+                        quiz_type: quiz_type,
+                      })
+                    } else {
+                      Toast.show({
+                        text: `Answer sheet name is required`,
+                        duration: 3000,
+                        position: 'top',
+                        style: { top: 300 },
+                        textStyle: {
+                          textAlign: 'center',
+                        },
+                      })
+                    }
+                  }}
+                >
+                  <Icon name="ios-camera" />
+                  <Text>Scan Answer</Text>
+                </Button>
+              </Row>
+            </Grid>
+          </React.Fragment>
+        ) : quiz_type === '1' ? (
+          <React.Fragment>
+            <Grid>
+              <Col size={2}>
+                <Text style={styles.header}>Answer Sheet</Text>
+              </Col>
+              <Col size={1}>
+                
+                  <Button style={styles.submit} onPress={handleSelect}>
+                    <Text style={{ fontSize: 10, fontWeight: 'bold' }}>
+                      Set Answer
+                    </Text>
+                  </Button>
+            
+              </Col>
+            </Grid>
+            <View style={styles.divider}></View>
+            <Grid>
+              {data && open.length !== 0
+                ? data.map((obj) => (
+                    <TouchableOpacity
+                      style={{ marginTop: 20, padding: 5 }}
+                      onPress={() => handleOpen(obj.answer_key)}
+                      key={obj.answer_key}
+                    >
+                      <Row>
+                        <Col size={1}>
+                          <View
+                            style={[
+                              styles.quiz,
+                              {
+                                backgroundColor: open.find(
+                                  (item) => item.key === obj.answer_key
+                                ).open
+                                  ? theme.colors.opPrimary
+                                  : '#EDEDED',
+                              },
+                            ]}
+                          >
+                            <Text
+                              style={{
+                                color: open.find(
+                                  (item) => item.key === obj.answer_key
+                                ).open
+                                  ? 'white'
+                                  : 'black',
+                              }}
+                            >
+                              Key
+                            </Text>
+                          </View>
+                        </Col>
+                        <Col size={2}>
+                          <View
+                            style={[
+                              styles.quiz,
+                              {
+                                backgroundColor: open.find(
+                                  (item) => item.key === obj.answer_key
+                                ).open
+                                  ? theme.colors.opPrimary
+                                  : '#EDEDED',
+                              },
+                            ]}
+                          >
+                            <Text
+                              style={{
+                                color: open.find(
+                                  (item) => item.key === obj.answer_key
+                                ).open
+                                  ? 'white'
+                                  : 'black',
+                              }}
+                            >
+                              {obj.answer_name}
+                            </Text>
+                          </View>
+                        </Col>
+                      </Row>
+
+                      <Row
+                        style={{ display: 'flex', justifyContent: 'center' }}
+                      >
+                        <Image
+                          source={{ uri: obj.answer_url }}
+                          style={[
+                            styles.image,
+                            open.find((item) => item.key === obj.answer_key)
+                              .open
+                              ? {
+                                  borderColor: theme.colors.opPrimary,
+                                  borderWidth: 5,
+                                  borderRadius: 10,
+                                }
+                              : null,
+                          ]}
+                        />
+                      </Row>
+                    </TouchableOpacity>
+                  ))
+                : null}
+              <Text style={styles.header}>Add Answer Sheet</Text>
+              <View style={styles.divider}></View>
+              <Row>
+                <Form style={{ width: '100%' }}>
+                  <Item floatingLabel>
+                    <Label>Answer Name</Label>
+                    <Input onChangeText={onChangeText} value={text} />
+                  </Item>
+                </Form>
+              </Row>
+              <Row>
+                <Button
+                  iconLeft
+                  style={styles.button}
+                  onPress={() => {
+                    if (text !== '') {
+                      navigation.navigate('CameraAnswer', {
+                        quiz_key: quiz_key,
+                        class_key: class_key,
+                        answer_name: text,
+                        quiz_type: quiz_type,
+                      })
+                    } else {
+                      Toast.show({
+                        text: `Answer sheet name is required`,
+                        duration: 3000,
+                        position: 'top',
+                        style: { top: 300 },
+                        textStyle: {
+                          textAlign: 'center',
+                        },
+                      })
+                    }
+                  }}
+                >
+                  <Icon name="ios-camera" />
+                  <Text>Scan Answer</Text>
+                </Button>
+              </Row>
+            </Grid>
+          </React.Fragment>
+        ) : null}
       </Content>
     </Container>
   )

@@ -58,13 +58,23 @@ const QuizIndex = ({ route, navigation }) => {
 
   useEffect(() => {
     if (data) {
-      if (data.answer !== '' && data.default !== '')
+      if (data.answer !== '' && data.default !== '' && data.quiz_type === '0')
         setAnswer({
           answer_key: data.default,
           answer_name: data.answer[[data.default]].answer_name,
           quiz_answer: answerParse(data.answer[[data.default]].quiz_answer),
         })
       //setAnswer(answerParse(data.answer[[data.default]].quiz_answer))
+      if (data.answer !== '' && data.default !== '' && data.quiz_type === '1') {
+        // console.log('#',data.default)
+        // let ans = [...data.default.map(key => answerParse(data.answer[[key]].quiz_answer))]
+        // console.log(ans)
+        setAnswer({
+          answer_key: data.default,
+          answer_name: [...data.default.map(key => data.answer[[key]].answer_name)],
+          quiz_answer: [...data.default.map(key => answerParse(data.answer[[key]].quiz_answer))],
+        })
+      }
     }
   }, [data])
 
@@ -99,22 +109,45 @@ const QuizIndex = ({ route, navigation }) => {
               </View>
             </Col>
           </Row>
-          <Row>
+          {data.answer !== '' &&
+                  data.default !== '' &&
+                  data.quiz_type === '0'?<Row>
             <Col size={1}>
               <View style={styles.quiz}>
-                <Text>Answer</Text>
+                <Text>Key</Text>
               </View>
             </Col>
             <Col size={2}>
               <View style={styles.quiz}>
                 <Text>
-                  {data.answer !== '' && data.default !== ''
+                  {data.answer !== '' &&
+                  data.default !== '' &&
+                  data.quiz_type === '0'
                     ? data.answer[[data.default]].answer_name
                     : 'NO ANSWER'}
                 </Text>
               </View>
             </Col>
-          </Row>
+          </Row>:data.answer !== '' &&
+                  data.default !== '' &&
+                  data.quiz_type === '1'?data.default.map((key,index)=><Row>
+                  <Col size={1}>
+                    <View style={styles.quiz}>
+                        <Text>{`Key ${index+1}`}</Text>
+                    </View>
+                  </Col>
+                  <Col size={2}>
+                    <View style={styles.quiz}>
+                      <Text>
+                        {data.answer !== '' &&
+                        data.default !== '' &&
+                        data.quiz_type === '1'
+                          ? data.answer[[key]].answer_name
+                          : 'NO ANSWER'}
+                      </Text>
+                    </View>
+                  </Col>
+                </Row>):null}
           <Row>
             <Col>
               <View style={{ padding: 10 }}>
@@ -127,6 +160,7 @@ const QuizIndex = ({ route, navigation }) => {
                         quiz_key: data.quiz_key,
                         class_key: Class_key,
                         student_key: null,
+                        quiz_type: data.quiz_type
                       })
                     } else {
                       Toast.show({
@@ -190,6 +224,7 @@ const QuizIndex = ({ route, navigation }) => {
                       quiz_key: data.quiz_key,
                       class_key: Class_key,
                       answer: data.answer,
+                      quiz_type: data.quiz_type,
                     })
                   }
                 >
@@ -272,7 +307,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     fontFamily: 'Comfortaa',
-    marginTop: 300,
+    marginTop: 280,
     width: 160,
   },
 })

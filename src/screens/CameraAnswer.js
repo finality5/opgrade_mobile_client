@@ -19,7 +19,7 @@ import axios from 'axios'
 const CameraAnswer = ({ route, navigation }) => {
   const camera = useRef(null)
   const { setImg, host, user,setToast } = useContext(AppContext)
-  const { quiz_key, class_key ,answer_name} = route.params
+  const { quiz_key, class_key ,answer_name,quiz_type} = route.params
   const [onProcess, setProcess] = useState(false)
 
   //console.log(quiz_key, class_key)
@@ -42,6 +42,7 @@ const CameraAnswer = ({ route, navigation }) => {
     req.append('uid', user.uid)
     req.append('class_key', class_key)
     req.append('quiz_key', quiz_key)
+    req.append('quiz_type', quiz_type)
     req.append('answer_name', answer_name)
     
     const url = 'http://' + host + ':5000' + '/get_answer'

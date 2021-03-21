@@ -130,7 +130,7 @@ const QuizIndex = ({ route, navigation }) => {
             </Col>
           </Row>:data.answer !== '' &&
                   data.default !== '' &&
-                  data.quiz_type === '1'?data.default.map((key,index)=><Row>
+              data.quiz_type === '1' ? data.default.map((key, index) => <Row key={ key}>
                   <Col size={1}>
                     <View style={styles.quiz}>
                         <Text>{`Key ${index+1}`}</Text>

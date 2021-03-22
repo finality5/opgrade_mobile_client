@@ -13,11 +13,13 @@ import {
   Toast
 } from 'native-base'
 import { theme } from '../core/theme'
+import { AppContext } from '../context/context'
 const HeaderTop = ({ goBack, title }) => {
+  const { ticker,setTicker } = useContext(AppContext)
   return (
     <Header style={styles.header}>
       <Left>
-        {title === "Classes"?(<Button transparent style={{ marginLeft: 30 }}>
+        {title === "Classes" ? (<Button transparent onPress={ ()=>setTicker(!ticker)} style={{ marginLeft: 30 }}>
             <Icon name="menu" style={{ color: 'white' }} />
           </Button>):title === 'result'?(
             <Button transparent style={{ marginLeft: 30 }} onPress={() => {

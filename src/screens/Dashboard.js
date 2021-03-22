@@ -15,9 +15,10 @@ import axios from 'axios'
 import { Container, Content, Spinner, View } from 'native-base'
 import { theme } from '../core/theme'
 const Dashboard = ({ navigation }) => {
-  const { user, setUser, setHost } = useContext(AppContext)
+  const { user, setUser, setHost, ticker } = useContext(AppContext)
   const [error, setError] = useState()
   const [isFetch, setFetch] = useState(false)
+  
   //const [test, setTest] = useState()
 
   useEffect(() => {
@@ -51,7 +52,7 @@ const Dashboard = ({ navigation }) => {
           .catch((err) => setError(err))
       }
     }
-  }, [])
+  }, [ticker])
 
   return (
     <Container style={styles.container}>
